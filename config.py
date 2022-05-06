@@ -15,7 +15,6 @@ Session(app)
 #--------------------------------------- CONFIGURACION PARA SQLALCHEMY/MYSQL --------------------------------------
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:1234@localhost/sibrat'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
 SQLAlchemy(app)
 
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------

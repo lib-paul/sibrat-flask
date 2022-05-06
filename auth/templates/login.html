@@ -60,8 +60,7 @@
               </div>
               {% with messages = get_flashed_messages() %} {% if messages %} {% for
                 message in messages %}
-                <p></p>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="{{alert_type}} alert-dismissible fade show" role="alert">
                   {{message}}
                   <button
                     type="button"
