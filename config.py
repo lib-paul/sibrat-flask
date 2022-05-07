@@ -6,10 +6,12 @@ from auth.auth import auth_bp
 
 #---------------------------------------- CONFIGURACION DEL OBJETO FLASK ----------------------------------
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
+app.secret_key = 'A0AKR5TGD\ R~XHH!jmN]LWDSd2xXxasZz1fX/,?RT'
 
 #---------------------------------------- CONFIGURACION PARA SESSION --------------------------------------
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
 Session(app)
 
 #--------------------------------------- CONFIGURACION PARA SQLALCHEMY/MYSQL --------------------------------------
