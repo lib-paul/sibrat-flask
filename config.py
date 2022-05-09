@@ -3,6 +3,7 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from general.general import general_bp
 from auth.auth import auth_bp
+from builder.builder import builder_bp
 
 #---------------------------------------- CONFIGURACION DEL OBJETO FLASK ----------------------------------
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
@@ -23,5 +24,5 @@ SQLAlchemy(app)
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------
 app.register_blueprint(general_bp)
 app.register_blueprint(auth_bp)
-
+app.register_blueprint(builder_bp)
 

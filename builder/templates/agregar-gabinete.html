@@ -1,0 +1,38 @@
+{% extends 'layout.html' %} {% block body %}
+<table class="table table-dark table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Fabricante</th>
+      <th scope="col">Estructura</th>
+      <th scope="col">Soporte MB</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gabinete in datos %}
+    <tr>
+
+      <th scope="row">{{gabinete.0}}</th>
+      <td>{{gabinete.1}}</td>
+      <td>{{gabinete.2}}</td>
+      <td>{{gabinete.3}}</td>
+      <td>{{gabinete.4}}</td>
+      <td>{{gabinete.5}}</td>
+
+
+
+      <td>
+        <form action="/agregar_armador/{{gabinete.0}}/{{'gabinete'}}" method="POST">
+          <button type="submit" class="btn btn-success btn-block">Agregar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+{% endblock %}

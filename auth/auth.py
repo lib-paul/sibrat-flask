@@ -62,6 +62,22 @@ def login():
             message =  f"Bienvenido {logged_user.nombre_cuenta}"
             flash(message)
             url_chain='general/index.html'
+            session['loggedin'] = True
+            session['id'] = 0
+            session['username'] = 0
+            session['email'] = 0
+            session['password'] = 0
+            session['admin'] = 0
+            session['precios'] = {
+                'precio_motherboard': "",
+                'precio_cpu': "",
+                'precio_ram': "",
+                'precio_gpu': "",
+                'precio_almacenamiento1': "",
+                'precio_almacenamiento2': "",
+                'precio_fuente': "",
+                'precio_gabinete': ""
+            }
         return render_template(url_chain,alert_type=alert_type)
 
 @auth_bp.route('/logout')

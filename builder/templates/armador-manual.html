@@ -1,0 +1,176 @@
+{% extends 'layout.html' %} {% block body %}
+
+<table class="table table-dark table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">Componente</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Precio aproximado</th>
+      <th scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1 - Motherboard</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['motherboard_nombre'] }}</td>
+      <td>{{ session['precios']['precio_motherboard'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'1'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['motherboard_nombre'] %}
+        <a href="/borrar_componente/{{'1'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">2 - CPU</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['cpu_nombre'] }}</td>
+      <td>{{ session['precios']['precio_cpu'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'2'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['cpu_nombre'] %}
+        <a href="/borrar_componente/{{'2'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">3 - RAM</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['ram_nombre'] }}</td>
+      <td>{{ session['precios']['precio_ram'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'3'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['ram_nombre'] %}
+        <a href="/borrar_componente/{{'3'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">4 - GPU</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['gpu_nombre'] }}</td>
+      <td>{{ session['precios']['precio_gpu'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'4'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['gpu_nombre'] %}
+        <a href="/borrar_componente/{{'4'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">5 - Almacenamiento Principal</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['almacenamiento1_nombre'] }}</td>
+      <td>{{ session['precios']['precio_almacenamiento1'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'5'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['almacenamiento1_nombre'] %}
+        <a href="/borrar_componente/{{'5'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <th scope="row">6 - Almacenamiento Secundario</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['almacenamiento2_nombre'] }}</td>
+      <td>{{ session['precios']['precio_almacenamiento2'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'6'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['almacenamiento2_nombre'] %}
+        <a href="/borrar_componente/{{'6'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">7 - Fuente</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['fuente_nombre'] }}</td>
+      <td>{{ session['precios']['precio_fuente'] }}</td>
+      <td>
+
+        <a href="/agregar_componente/{{'7'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['fuente_nombre'] %}
+        <a href="/borrar_componente/{{'7'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">8 - Gabinete</th>
+      <td><a href="" class="btn btn-secondary">Ver descripcion</a></td>
+      <td>{{ session['gabinete_nombre'] }}</td>
+      <td>{{ session['precios']['precio_gabinete'] }}</td>
+      <td>
+        <a href="/agregar_componente/{{'8'}}" class="btn btn-secondary">Agregar</a>
+        {% if session['gabinete_nombre'] %}
+        <a href="/borrar_componente/{{'8'}}" class="btn btn-danger">Borrar</a>
+        {% endif %}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">A tener en cuenta...</div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Socket requerido en motherboard: {{ session['motherboard_socket']}}</li>
+        <li class="list-group-item">PSU Minima requerida: {{ session['gpu_recomendacion_psu'] }}</li>
+        <li class="list-group-item">Factor forma de gabinete requerido: {{ session['motherboard_factor_forma']}}</li>
+        <li class="list-group-item">Precio aproximado total: $ {{ session['precio_aproximado']}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Comandos</h5>
+        <p class="card-text">Opciones disponibles para el armador:</p>
+        {% if session['motherboard_nombre'] and session['cpu_nombre'] and session['ram_nombre'] and
+        session['gpu_nombre'] and session['almacenamiento1_nombre'] and session['fuente_nombre'] and
+        session['gabinete_nombre'] %}
+        <a href="/guardar_armado" type="submit" class="btn btn-success btn-block">Guardar en la base de datos</a>
+        {% else %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Guardar en la base de datos
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¡Creo que faltan cosas!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Recuerda que para guardar tu armado personalizado en la base de datos todos los componentes tienen que estar presentes, gracias!
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar mensajito :)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <a href="/buscar_armados" class="btn btn-primary">Buscar armados</a>
+        <a href="/reset_armador" class="btn btn-primary">Empezar devuelta</a>
+      </div>
+      <!--Cartel de guardado exitoso-->
+      {% if msg %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{msg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
