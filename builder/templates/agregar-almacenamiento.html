@@ -18,23 +18,23 @@
         {% for almacenamiento in datos %}
         <tr>
 
-            <th scope="row">{{almacenamiento.0}}</th>
-            <td>{{almacenamiento.1}}</td>
-            <td>{{almacenamiento.2}}</td>
-            <td>{{almacenamiento.3}}</td>
-            <td>{{almacenamiento.4}}</td>
-            <td>{{almacenamiento.5}}</td>
-            <td>{{almacenamiento.6}}</td>
-            <td>{{almacenamiento.7}}</td>
+            <th scope="row">{{almacenamiento.id_almacenamiento}}</th>
+            <td>{{almacenamiento.nombre}}</td>
+            <td>{{almacenamiento.fabricante}}</td>
+            <td>{{almacenamiento.capacidad}}</td>
+            <td>{{almacenamiento.tecnologia}}</td>
+            <td>{{almacenamiento.interfaz}}</td>
+            <td>{{almacenamiento.factor_forma}}</td>
+            <td>{{almacenamiento.precio_aproximado}}</td>
 
 
             <td>
-                {% if id==5 %}
-                <form action="/agregar_armador/{{almacenamiento.0}}/{{'almacenamiento1'}}" method="POST">
+                {% if id== 5 %}
+                <form action="/agregar_armador/{{almacenamiento.id_almacenamiento}}/{{'almacenamiento1'}}" method="POST">
                     <button type="submit" class="btn btn-success btn-block">Agregar</button>
                 </form>
                 {% else %}
-                <form action="/agregar_armador/{{almacenamiento.0}}/{{'almacenamiento2'}}" method="POST">
+                <form action="/agregar_armador/{{almacenamiento.id_almacenamiento}}/{{'almacenamiento2'}}" method="POST">
                     <button type="submit" class="btn btn-success btn-block">Agregar</button>
                 </form>
                 {% endif %}

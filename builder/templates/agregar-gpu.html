@@ -19,18 +19,18 @@
     {% for gpu in datos %}
     <tr>
 
-      <th scope="row">{{gpu.0}}</th>
-      <td>{{gpu.1}}</td>
-      <td>{{gpu.2}}</td>
-      <td>{{gpu.3}}</td>
-      <td>{{gpu.4}}</td>
-      <td>{{gpu.5}}</td>
-      <td>{{gpu.6}}</td>
-      <td>{{gpu.7}}</td>
-      <td>{{gpu.8}}</td>
+      <th scope="row">{{gpu.id_gpu}}</th>
+      <td>{{gpu.nombre}}</td>
+      <td>{{gpu.fabricante}}</td>
+      <td>{{gpu.capacidad}}</td>
+      <td>{{gpu.tipo_memoria}}</td>
+      <td>{{gpu.potencia_tipica}}</td>
+      <td>{{gpu.recomendacion_fuente}}</td>
+      <td>{{gpu.interfaz_memoria}}</td>
+      <td>{{gpu.precio_aproximado}}</td>
 
       <td>
-        <form action="/agregar_armador/{{gpu.0}}/{{'gpu'}}" method="POST">
+        <form action="/agregar_armador/{{gpu.id_gpu}}/{{'gpu'}}" method="POST">
           <button type="submit" class="btn btn-success btn-block">Agregar</button>
         </form>
       </td>

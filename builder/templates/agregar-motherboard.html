@@ -16,15 +16,15 @@
       {% for motherboard in datos %}
       <tr>
         
-        <th scope="row">{{motherboard.0}}</th>
-        <td>{{motherboard.1}}</td>
-        <td>{{motherboard.2}}</td>
-        <td>{{motherboard.3}}</td>
-        <td>{{motherboard.5}}</td>
-        <td>{{motherboard.7}}</td>
+        <th scope="row">{{motherboard.id_motherboard}}</th>
+        <td>{{motherboard.nombre}}</td>
+        <td>{{motherboard.fabricante}}</td>
+        <td>{{motherboard.zocalo}}</td>
+        <td>{{motherboard.soporte_memoria}}</td>
+        <td>{{motherboard.precio_aproximado}}</td>
         
         <td>
-          <form action="/agregar_armador/{{motherboard.0}}/{{'motherboard'}}" method="POST">
+          <form action="/agregar_armador/{{motherboard.id_motherboard}}/{{'motherboard'}}" method="POST">
             <button type="submit" class="btn btn-success btn-block">Agregar</button>
           </form>
         </td>

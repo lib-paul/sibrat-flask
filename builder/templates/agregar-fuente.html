@@ -18,17 +18,17 @@
       {% for fuente in datos %}
       <tr>
         
-        <th scope="row">{{fuente.0}}</th>
-        <td>{{fuente.1}}</td>
-        <td>{{fuente.2}}</td>
-        <td>{{fuente.3}}</td>
-        <td>{{fuente.4}}</td>
-        <td>{{fuente.5}}</td>
-        <td>{{fuente.6}}</td>
-        <td>{{fuente.7}}</td>
+        <th scope="row">{{fuente.id_fuente}}</th>
+        <td>{{fuente.nombre}}</td>
+        <td>{{fuente.fabricante}}</td>
+        <td>{{fuente.certificacion}}</td>
+        <td>{{fuente.potencia_salida}}</td>
+        <td>{{fuente.tipo_fuente}}</td>
+        <td>{{fuente.corrector_fpotencia}}</td>
+        <td>{{fuente.precio_aproximado}}</td>
         
         <td>
-          <form action="/agregar_armador/{{fuente.0}}/{{'fuente'}}" method="POST">
+          <form action="/agregar_armador/{{fuente.id_fuente}}/{{'fuente'}}" method="POST">
             <button type="submit" class="btn btn-success btn-block">Agregar</button>
           </form>
         </td>

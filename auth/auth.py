@@ -63,11 +63,6 @@ def login():
             flash(message)
             url_chain='general/index.html'
             session['loggedin'] = True
-            session['id'] = 0
-            session['username'] = 0
-            session['email'] = 0
-            session['password'] = 0
-            session['admin'] = 0
             session['precios'] = {
                 'precio_motherboard': "",
                 'precio_cpu': "",

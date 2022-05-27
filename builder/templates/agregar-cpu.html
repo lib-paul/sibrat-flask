@@ -19,18 +19,18 @@
     {% for cpu in datos %}
     <tr>
 
-      <th scope="row">{{cpu.0}}</th>
-      <td>{{cpu.1}}</td>
-      <td>{{cpu.2}}</td>
-      <td>{{cpu.3}}</td>
-      <td>{{cpu.4}}</td>
-      <td>{{cpu.5}}</td>
-      <td>{{cpu.6}}</td>
-      <td>{{cpu.7}}</td>
-      <td>{{cpu.8}}</td>
+      <th scope="row">{{cpu.id_cpu}}</th>
+      <td>{{cpu.nombre}}</td>
+      <td>{{cpu.fabricante}}</td>
+      <td>{{cpu.litografia}}</td>
+      <td>{{cpu.frecuencia_max}}</td>
+      <td>{{cpu.tdp}}</td>
+      <td>{{cpu.soporte_memoria}}</td>
+      <td>{{cpu.zocalo}}</td>
+      <td>{{cpu.precio_aproximado}}</td>
 
       <td>
-        <form action="/agregar_armador/{{cpu.0}}/{{'cpu'}}" method="POST">
+        <form action="/agregar_armador/{{cpu.id_cpu}}/{{'cpu'}}" method="POST">
           <button type="submit" class="btn btn-success btn-block">Agregar</button>
         </form>
       </td>

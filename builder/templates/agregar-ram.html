@@ -17,18 +17,17 @@
       {% for ram in datos %}
       <tr>
         
-        <th scope="row">{{ram.0}}</th>
-        <td>{{ram.1}}</td>
-        <td>{{ram.2}}</td>
-        <td>{{ram.3}}</td>
-        <td>{{ram.4}}</td>
-        
-        <td>{{ram.6}}</td>
-        <td>{{ram.7}}</td>
+        <th scope="row">{{ram.id_ram}}</th>
+        <td>{{ram.nombre}}</td>
+        <td>{{ram.fabricante}}</td>
+        <td>{{ram.capacidad}}</td>
+        <td>{{ram.velocidad}}</td>
+        <td>{{ram.tipo}}</td>
+        <td>{{ram.precio_aproximado}}</td>
         
         
         <td>
-          <form action="/agregar_armador/{{ram.0}}/{{'ram'}}" method="POST">
+          <form action="/agregar_armador/{{ram.id_ram}}/{{'ram'}}" method="POST">
             <button type="submit" class="btn btn-success btn-block">Agregar</button>
           </form>
         </td>
