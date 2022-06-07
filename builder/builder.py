@@ -6,10 +6,15 @@ from models.Gpu import Gpu
 from models.Almacenamiento import Almacenamiento
 from models.Fuente import Fuente
 from models.Gabinete import Gabinete
+from models.User import User
+from models.Save import Save
 from utils.db import db
 
 builder_bp = Blueprint('builder',__name__,template_folder="templates")
 
+# ************* RUTAS *************
+
+#Ruta principal del armador manual
 @builder_bp.route('/armador_manual')
 def armador_manual_vista():
     return render_template('armador-manual.html')
@@ -107,3 +112,80 @@ def borrar_componente(id):
         session.pop('gabinete_nombre')
         session.pop('gabinete_precio_aproximado')
     return redirect(url_for('builder.armador_manual_vista'))
+
+#Ruta para el reset del armador
+@builder_bp.route('/reset_armador')
+def reset_armador():
+    vaciar_campos()
+    return redirect(url_for('builder.armador_manual_vista'))
+
+#Guardar Armado en la bdd
+@builder_bp.route('/guardar_armado')
+def guardar_armado():
+    usuario = User.query.filter_by(nombre_cuenta=session['username']).first()
+    id_usuario = usuario.id_usuario
+    motherboard = session['motherboard_nombre']
+    cpu=session['cpu_nombre']
+    ram=session['ram_nombre']
+    gpu=session['gpu_nombre']
+    almacenamiento1=session['almacenamiento1_nombre']
+    almacenamiento2=session['almacenamiento2_nombre']
+    fuente=session['fuente_nombre']
+    gabinete=session['gabinete_nombre']
+    precio_aprox= 0
+    save = Save(id_usuario, motherboard, cpu,ram,gpu,almacenamiento1,almacenamiento2,fuente,gabinete,precio_aprox)
+    db.session.add(save)
+    db.session.commit()
+    vaciar_campos()
+    msg="Listo la carga!"
+    return render_template('armador-manual.html',msg=msg)
+
+#Ruta a la vista de los Saves que tiene el usuario
+@builder_bp.route('/buscar_armados')
+def buscar_armados():
+    usuario = User.query.filter_by(nombre_cuenta=session['username']).first()
+    datos = Save.query.filter_by(id_usuario = usuario.id_usuario).all()
+    return render_template('buscar-armados.html', datos=datos, id_usuario=usuario.id_usuario)
+
+#Eliminar un save del usuario
+@builder_bp.route('/eliminar_armado/<id_save>/<id_usuario>')
+def eliminar_armado(id_save,id_usuario):
+    save = Save.query.filter_by(id_save=id_save, id_usuario=id_usuario).first()
+    db.session.delete(save)
+    db.session.commit()
+    return redirect(url_for('builder.buscar_armados'))
+
+
+# ************* FUNCIONES (NO RUTA) *************
+
+#Clear All para quitar los items actualmente seleccionados en el buidler
+def vaciar_campos():
+    #Vaciar motherboard
+    session.pop('motherboard_nombre')
+    session.pop('motherboard_precio_aproximado')
+    session.pop('motherboard_socket')
+    session.pop('motherboard_factor_forma')
+    #Vaciar Cpu
+    session.pop('cpu_nombre')
+    session.pop('cpu_precio_aproximado')
+    #Vaciar Ram
+    session.pop('ram_nombre')
+    session.pop('ram_precio_aproximado')
+    #Vaciar Gpu
+    session.pop('gpu_nombre')
+    session.pop('gpu_precio_aproximado')
+    session.pop('gpu_recomendacion_psu')
+    #Vaciar Almacenamiento 1 y 2
+    session.pop('almacenamiento1_nombre')
+    session.pop('almacenamiento1_precio_aproximado')
+    session.pop('almacenamiento2_nombre')
+    session.pop('almacenamiento2_precio_aproximado')
+    #Vaciar Fuente
+    session.pop('fuente_nombre')
+    session.pop('fuente_precio_aproximado')
+    #Vaciar Gabinete
+    session.pop('gabinete_nombre')
+    session.pop('gabinete_precio_aproximado')
+
+
+
