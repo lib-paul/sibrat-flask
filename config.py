@@ -7,6 +7,7 @@ import os
 from general.general import general_bp
 from auth.auth import auth_bp
 from builder.builder import builder_bp
+from admin.admin import admin_bp
 
 #---------------------------------------- CARGAR LAS VARIABLES PARA EL ENTORNO DE DESARROLLO ----------------------------------
 from dotenv import load_dotenv
@@ -30,8 +31,9 @@ SQLAlchemy(app)
 app.register_blueprint(general_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(builder_bp)
+app.register_blueprint(admin_bp)
 
 @app.errorhandler(404)
 def page_not_found(e):
-    # note that we set the 404 status explicitly
+    # Esto es para el error 404
     return render_template('404.html'), 404
