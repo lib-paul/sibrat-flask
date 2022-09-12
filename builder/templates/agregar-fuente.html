@@ -1,0 +1,40 @@
+{% extends 'layout.html' %} {% block body %}
+<table class="table table-dark table-striped">
+
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Fabricante</th>
+        <th scope="col">Certificación</th>
+        <th scope="col">Potencia de salida</th>
+        <th scope="col">Tipo de fuente</th>
+        <th scope="col">Corrector de potencia</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fuente in datos %}
+      <tr>
+        
+        <th scope="row">{{fuente.id_fuente}}</th>
+        <td>{{fuente.nombre}}</td>
+        <td>{{fuente.fabricante}}</td>
+        <td>{{fuente.certificacion}}</td>
+        <td>{{fuente.potencia_salida}}</td>
+        <td>{{fuente.tipo_fuente}}</td>
+        <td>{{fuente.corrector_fpotencia}}</td>
+        <td>{{fuente.precio_aproximado}}</td>
+        
+        <td>
+          <form action="/agregar_armador/{{fuente.id_fuente}}/{{'fuente'}}" method="POST">
+            <button type="submit" class="btn btn-success btn-block">Agregar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  
+  </table>
+{% endblock %}

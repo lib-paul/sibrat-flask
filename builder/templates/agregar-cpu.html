@@ -1,0 +1,42 @@
+{% extends 'layout.html' %} {% block body %}
+<table class="table table-dark table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Fabricante</th>
+      <th scope="col">Litografia</th>
+      <th scope="col">Frecuencia Maxima</th>
+      <th scope="col">TDP</th>
+      <th scope="col">Soporte Memoria</th>
+      <th scope="col">Socket</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cpu in datos %}
+    <tr>
+
+      <th scope="row">{{cpu.id_cpu}}</th>
+      <td>{{cpu.nombre}}</td>
+      <td>{{cpu.fabricante}}</td>
+      <td>{{cpu.litografia}}</td>
+      <td>{{cpu.frecuencia_max}}</td>
+      <td>{{cpu.tdp}}</td>
+      <td>{{cpu.soporte_memoria}}</td>
+      <td>{{cpu.zocalo}}</td>
+      <td>{{cpu.precio_aproximado}}</td>
+
+      <td>
+        <form action="/agregar_armador/{{cpu.id_cpu}}/{{'cpu'}}" method="POST">
+          <button type="submit" class="btn btn-success btn-block">Agregar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+{% endblock %}

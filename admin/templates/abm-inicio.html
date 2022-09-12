@@ -1,0 +1,24 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="card-group">
+    <div class="card ">
+      <div class="card-body d-flex justify-content-center">
+        <a href="/abm_componentes" class="btn btn-success btn-block" ><img src="{{url_for('static', filename='images/add-abm.svg')}}" class="card-img-top" alt="...">Componentes</a>      
+      </div>
+    </div>
+    <div class="card">
+      
+      <div class="card-body d-flex justify-content-center">
+        
+        <a href="/abm_baja" class="btn btn-danger btn-block" ><img src="{{url_for('static', filename='images/delete-abm.svg')}}" class="card-img-top" alt="...">Usuarios</a>    
+      </div>
+    </div>
+    <div class="card">
+      
+      <div class="card-body d-flex justify-content-center">
+        
+        <a href="/abm_baja" class="btn btn-info btn-block" ><img src="{{url_for('static', filename='images/edit-abm.svg')}}" class="card-img-top" alt="...">Requests</a>    
+      </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,2 +1,9 @@
 Flask==2.0.2
-gunicorn
+Flask-Session==0.4.0
+Flask-SQLAlchemy==2.5.1
+python-dotenv==0.20.0
+gunicorn==20.1.0
+psycopg2==2.9.3
+requests==2.27.1
+SQLAlchemy==1.4.36
+

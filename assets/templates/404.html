@@ -66,8 +66,23 @@
       </div>
 
     </nav>
+    <div class="container error404">
+        <div class="card text-center error404plus">
+            <div class="card-header ">
+                <h6> Nada por aqui!</h6>
+             
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Esta parte de la app esta en proceso </h5>
+              <p class="card-text">Disculpa las molestias ocasionadas</p>
+              <img class="rounded mx-auto d-block" src="{{url_for('static', filename='images/alert-triangle.svg')}}" alt="First slide">
+            </div>
+            <div class="card-footer text-muted">
+              Para un registro detallado de avance referirse al equipo :)
+            </div>
+          </div>
+    </div>
     
-    <div class="container pt-4">{% block body %} {% endblock %}</div>
     
 
     <!-- Scripts -->
@@ -102,3 +117,16 @@
 </div>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
