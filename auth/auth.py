@@ -19,6 +19,7 @@ def register():
     email = request.form['email']
     password = request.form['pass']
     re_password = request.form['re_pass']
+    admin=0
     registered_user = User.query.filter_by(email=email).first()
     alert_type="alert alert-danger"
     if password != re_password:
@@ -31,7 +32,7 @@ def register():
         flash('Usuario ya registrado')
         url_chain='register.html'
     else:
-        new_user = User(email=email,nombre_cuenta=name,password=password,admin=0)
+        new_user = User(email=email,nombre_cuenta=name,password=password,admin=admin)
         db.session.add(new_user)
         db.session.commit()
         url_chain='login.html'
