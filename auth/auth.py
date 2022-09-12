@@ -31,7 +31,7 @@ def register():
         flash('Usuario ya registrado')
         url_chain='register.html'
     else:
-        new_user = User(email=email,nombre_cuenta=name,password=password)
+        new_user = User(email=email,nombre_cuenta=name,password=password,admin=0)
         db.session.add(new_user)
         db.session.commit()
         url_chain='login.html'
