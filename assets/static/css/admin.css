@@ -1,0 +1,31 @@
+.nav.nav-tabs {
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 10px;
+}
+
+.table-responsive {
+  padding-top: 10px;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.admin-form {
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 10px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+.row-height {
+  height: 50rem;
+}

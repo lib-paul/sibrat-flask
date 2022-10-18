@@ -1,7 +1,7 @@
 from utils.db import db
 
 class Gabinete(db.Model):
-    id_gabinete = db.Column(db.Integer, primary_key=True, nullable= False)
+    id = db.Column(db.Integer, primary_key=True, nullable= False)
     nombre = db.Column(db.String(75), nullable= False)
     fabricante = db.Column(db.String(75), nullable= False)
     tipo_estructura = db.Column(db.String(75), nullable= False)
@@ -16,3 +16,29 @@ class Gabinete(db.Model):
         self.soporte_motherboard = soporte_motherboard
         self.precio_aproximado = precio_aproximado
         self.web = web
+
+
+    def caracteristicas_gabinete():
+        caracteristicas={
+            "1" : "ID",
+            "2" : "Nombre",
+            "3" : "Fabricante",
+            "4" : "Estructura",
+            "5" : "Soporte MB",
+            "6" : "Precio",
+            "7" : "Opciones"
+        }
+        return caracteristicas
+
+    def columnas_gabinete():
+        columnas = [
+            "id",
+            "nombre",
+            "fabricante",
+            "tipo_estructura",
+            "soporte_motherboard",
+            "precio_aproximado"
+        ]
+        return columnas
+
+        

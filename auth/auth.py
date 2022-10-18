@@ -65,16 +65,7 @@ def login():
             url_chain='general/index.html'
             session['loggedin'] = True
             session['admin']= logged_user.admin
-            session['precios'] = {
-                'precio_motherboard': "",
-                'precio_cpu': "",
-                'precio_ram': "",
-                'precio_gpu': "",
-                'precio_almacenamiento1': "",
-                'precio_almacenamiento2': "",
-                'precio_fuente': "",
-                'precio_gabinete': ""
-            }
+            session['armador_manual'] = {}
         return render_template(url_chain,alert_type=alert_type)
 
 @auth_bp.route('/logout')

@@ -1,0 +1,7 @@
+{% if session['admin']==1 %}
+<footer class="text-center fixed-bottom pt-4 pb-4 bg-{{config['APP_COLOR_MODE']}}">
+  {% else %}
+  <footer class="text-center fixed-bottom pt-4 pb-4 bg-{{config['APP_COLOR_MODE']}}">
+    {% endif %}
+      <a class="text-{{config['APP_TEXT_COLOR_MODE']}}" href="/">2022:SIBRAT Hardware</a>
+  </footer>

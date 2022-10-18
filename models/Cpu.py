@@ -2,7 +2,7 @@ from socket import socket
 from utils.db import db
 
 class Cpu(db.Model):
-    id_cpu = db.Column(db.Integer, primary_key=True, nullable= False)
+    id = db.Column(db.Integer, primary_key=True, nullable= False)
     id_integrada = db.Column(db.Integer)
     nombre = db.Column(db.String(75), nullable= False)
     fabricante = db.Column(db.String(75), nullable= False)
@@ -24,3 +24,32 @@ class Cpu(db.Model):
         self.zocalo = zocalo
         self.precio_aproximado = precio_aproximado
         self.web = web
+
+    def caracteristicas_cpu():
+        caracteristicas={
+            "1" : "ID",
+            "2" : "Nombre",
+            "3" : "Fabricante",
+            "4" : "Litografia",
+            "5" : "Frecuencia Maxima",
+            "6" : "TDP",
+            "7" : "Soporte Memoria",
+            "8" : "Socket",
+            "9" : "Precio",
+            "10" : "Opciones"
+        }
+        return caracteristicas
+
+    def columnas_cpu():
+        columnas = [
+            "id",
+            "nombre",
+            "fabricante",
+            "litografia",
+            "frecuencia_max",
+            "tdp",
+            "soporte_memoria",
+            "zocalo",
+            "precio_aproximado"
+        ]
+        return columnas

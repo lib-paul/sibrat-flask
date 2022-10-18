@@ -1,132 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIBRAT v0.5</title>
-  <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css" />
-  <!-- Fuentes de toda la web -->
-  <link rel="stylesheet" href="{{url_for('static', filename='fonts/material-icon/css/material-design-iconic-font.min.css')}}">
-  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-</head>
-
-
-<body>
-  
-  {% if session['admin']==1 %}
-  <nav class="navbar navbar-expand-lg navbar-light bg-danger text-light">
-    {% else %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      {% endif %}
-      <div class="container-fluid">
-        {% if session['admin']==1 %}
-        <a class="navbar-brand" href="/">SIBRAT v0.5 Administrador</a>
-        {% else %}
-        <a class="navbar-brand" href="/">SIBRAT v0.5 </a>
-        {% endif %}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            {% if session['username'] %}
-            <li class="nav-item">
-              <a class="nav-link" href="/armador_manual">Armado Manual</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/profile">Perfil</a>
-            </li>
-            {% endif %}
-            {% if session['admin']==1 %}
-            <li class="nav-item">
-              <a class="nav-link" href="/abm">ABM</a>
-            </li>
-            {% endif %}
-          </ul>
-
-        </div>
-        <form class="form-inline my-2 my-lg-0">
-
-          {% if session['username'] %}
-
-          <a href="/logout" class="btn btn-secondary">Logout <span class="text-danger">{{
-              session['username']}}</span></a>
-          {% else %}
-          <a href="/registrarse" class="btn btn-secondary">Register</a>
-          <a href="/iniciar-sesion" class="btn btn-secondary">Login</a>
-          {% endif %}
-
-        </form>
-      </div>
-
-    </nav>
-    <div class="container error404">
-        <div class="card text-center error404plus">
-            <div class="card-header ">
-                <h6> Nada por aqui!</h6>
-             
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Esta parte de la app esta en proceso </h5>
-              <p class="card-text">Disculpa las molestias ocasionadas</p>
-              <img class="rounded mx-auto d-block" src="{{url_for('static', filename='images/alert-triangle.svg')}}" alt="First slide">
-            </div>
-            <div class="card-footer text-muted">
-              Para un registro detallado de avance referirse al equipo :)
-            </div>
-          </div>
+{% extends 'layout.html' %} {% block body %}
+<div class="container error404 ">
+  <div class="card text-center error404plus bg-{{config['APP_COLOR_MODE']}} border-primary">
+    <div class="card-header">
+      <h6>Nada por aqui!</h6>
     </div>
-    
-    
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-      integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-      integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-      crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='js/main.js')}}"></script>
-
-</body>
-<div class="container my-5">
-  {% if session['admin']==1 %}
-
-  <footer class="text-center text-white fixed-bottom" style="background-color: #E74C3C;">
-    {% else %}
-    <footer class="text-center text-white fixed-bottom" style="background-color: #ADB5BD;">
-      {% endif %}
-
-      <!-- Grid container -->
-      <div class="container p-4"></div>
-      <!-- Grid container -->
-
-      <!-- Copyright -->
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-
-        <a class="text-black" href="/">2022:SIBRAT Hardware</a>
-      </div>
-      <!-- Copyright -->
-    </footer>
+    <div class="card-body">
+      <h5 class="card-title">Esta parte de la app esta en proceso</h5>
+      <p class="card-text">Disculpa las molestias ocasionadas</p>
+      <img
+        class="rounded mx-auto d-block"
+        src="{{url_for('static', filename='images/alert-triangle.svg')}}"
+        alt="First slide"
+      />
+    </div>
+    <div class="card-footer">
+      Para un registro detallado de avance referirse al equipo :)
+    </div>
+  </div>
 </div>
-
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
+{% endblock body %}

@@ -1,109 +1,217 @@
-from flask import Blueprint,render_template, request, redirect, url_for,session,flash
-from models.Motherboard import Motherboard
-from models.Cpu import Cpu
-from models.Ram import Ram
-from models.Gpu import Gpu
-from models.Almacenamiento import Almacenamiento
-from models.Fuente import Fuente
-from models.Gabinete import Gabinete
-from utils.db import db
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from utils.imports_admin import *
 
-builder_bp = Blueprint('builder',__name__,template_folder="templates")
 
+builder_bp = Blueprint('builder', __name__, template_folder="templates")
+
+
+componentes = {
+    "1": "Motherboard",
+    "2": "CPU",
+    "3": "RAM",
+    "4": "GPU",
+    "5": "Almacenamiento Principal",
+    "6": "Almacenamiento Secundario",
+    "7": "Fuente",
+    "8": "Gabinete",
+}
+
+# RUTA PRINCIPAL DEL ARMADOR MANUAL
 @builder_bp.route('/armador_manual')
 def armador_manual_vista():
-    return render_template('armador-manual.html')
+    print(session['armador_manual'])
+    return render_template('armador-manual.html', componentes=componentes)
 
-#Carga de items y templates para cada componente
+# RUTA PARA LA CARGA DE COMPONENTES EN EL AGREGADO
 @builder_bp.route('/agregar_componente/<id>')
 def mostrar_componente(id):
+    vista_agregar = '/agregar-componente.html'
     if id == '1':
-        return render_template('/agregar-motherboard.html', datos=Motherboard.query.all(), id=1)
+        datos = Motherboard.query.all()
+        caracteristicas_dato = Motherboard.caracteristicas_motherboard()
+        componente = "motherboard"
+        tipo = "motherboard"
+        datos_columna = Motherboard.columnas_motherboard()
     elif id == '2':
-        return render_template('/agregar-cpu.html', datos=Cpu.query.all(), id=2)
+        datos = Cpu.query.all()
+        caracteristicas_dato = Cpu.caracteristicas_cpu()
+        componente = "cpu"
+        tipo = "cpu"
+        datos_columna = Cpu.columnas_cpu()
     elif id == '3':
-        return render_template('/agregar-ram.html', datos=Ram.query.all(), id=3)
+        datos = Ram.query.all()
+        caracteristicas_dato = Ram.caracteristicas_ram()
+        componente = "ram"
+        tipo = "ram"
+        datos_columna = Ram.columnas_ram()
     elif id == '4':
-        return render_template('/agregar-gpu.html', datos=Gpu.query.all(), id=4)
+        datos = Gpu.query.all()
+        caracteristicas_dato = Gpu.caracteristicas_gpu()
+        componente = "gpu"
+        tipo = "gpu"
+        datos_columna = Gpu.columnas_gpu()
     elif id == '5':
-        return render_template('/agregar-almacenamiento.html', datos=Almacenamiento.query.all(), id=5)
+        datos = Almacenamiento.query.all()
+        caracteristicas_dato = Almacenamiento.caracteristicas_almacenamiento()
+        componente = "almacenamiento"
+        tipo = "almacenamiento"
+        datos_columna = Almacenamiento.columnas_almacenamiento()
     elif id == '6':
-        return render_template('/agregar-almacenamiento.html', datos=Almacenamiento.query.all(), id=6)
+        datos = Almacenamiento.query.all()
+        caracteristicas_dato = Almacenamiento.caracteristicas_almacenamiento()
+        componente = "almacenamiento2"
+        tipo = "almacenamiento2"
+        datos_columna = Almacenamiento.columnas_almacenamiento()
     elif id == '7':
-        return render_template('/agregar-fuente.html', datos=Fuente.query.all(), id=7)
+        datos = Fuente.query.all()
+        caracteristicas_dato = Fuente.caracteristicas_fuente()
+        componente = "fuente"
+        tipo = "fuente"
+        datos_columna = Fuente.columnas_fuente()
     elif id == '8':
-        return render_template('/agregar-gabinete.html', datos=Gabinete.query.all(), id=8)
-    else:    
+        datos = Gabinete.query.all()
+        caracteristicas_dato = Gabinete.caracteristicas_gabinete()
+        componente = "gabinete"
+        tipo = "gabinete"
+        datos_columna = Gabinete.columnas_gabinete()
+    else:
         return render_template('armador-manual.html')
+    return render_template(vista_agregar, datos=datos, id=id, caracteristicas_dato=caracteristicas_dato, componente=componente, tipo=tipo, datos_columna=datos_columna, getattr=getattr, zip=zip)
 
-#Agregar item de 'x' componente a la vista de armador manual
+# Agregar item de 'x' componente a la vista de armador manual
+
 @builder_bp.route('/agregar_armador/<id>/<component>', methods=['POST'])
 def agregar_armador(id, component):
     if component == 'motherboard':
         data = Motherboard.query.get(id)
-        session['motherboard_nombre'] = data.nombre
-        session['motherboard_precio_aproximado'] = data.precio_aproximado
-        session['motherboard_socket'] = data.zocalo
-        session['motherboard_factor_forma'] = data.factor_forma
+        session['armador_manual'].update( {
+            "Motherboard" : {
+                "marca" : data.fabricante,
+                "nombre": data.nombre,
+                "precio_aproximado" : data.precio_aproximado,
+                "socket" : data.zocalo,
+                "factor_forma" : data.factor_forma
+            },
+            "precios" :{
+                "precio_motherboard" : data.precio_aproximado,
+            },
+        })
     elif component == 'cpu':
         data = Cpu.query.get(id)
-        session['cpu_nombre'] = data.nombre
-        session['cpu_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "CPU" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_cpu" : data.precio_aproximado,
+            },
+        })   
     elif component == 'ram':
         data = Ram.query.get(id)
-        session['ram_nombre'] = data.nombre
-        session['ram_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "RAM" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_ram" : data.precio_aproximado,
+            },
+        })   
     elif component == 'gpu':
         data = Gpu.query.get(id)
-        session['gpu_nombre'] = data.nombre
-        session['gpu_precio_aproximado'] = data.precio_aproximado
-        session['gpu_recomendacion_psu'] = data.recomendacion_fuente
-    elif component == 'almacenamiento1':
+        session['armador_manual'].update( {
+            "GPU" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado,
+                "recomendacion_psu" : data.recomendacion_fuente
+            },
+            "precios" :{
+                "precio_gpu" : data.precio_aproximado,
+            },
+        })   
+    elif component == 'almacenamiento':
         data = Almacenamiento.query.get(id)
-        session['almacenamiento1_nombre'] = data.nombre
-        session['almacenamiento1_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "Almacenamiento Principal" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_almacenamiento1" : data.precio_aproximado,
+            },
+        })   
+        print("llegue aca")
+        print(session['armador_manual'].get('Almacenamiento Principal'))
     elif component == 'almacenamiento2':
         data = Almacenamiento.query.get(id)
-        session['almacenamiento2_nombre'] = data.nombre
-        session['almacenamiento2_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "Almacenamiento Secundario" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_almacenamiento2" : data.precio_aproximado,
+            },
+        })   
+
     elif component == 'fuente':
         data = Fuente.query.get(id)
-        session['fuente_nombre'] = data.nombre
-        session['fuente_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "Fuente" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_fuente" : data.precio_aproximado,
+            },
+        })   
+
     elif component == 'gabinete':
         data = Gabinete.query.get(id)
-        session['gabinete_nombre'] = data.nombre
-        session['gabinete_precio_aproximado'] = data.precio_aproximado
+        session['armador_manual'].update( {
+            "Gabinete" : {
+                "marca" : data.fabricante,
+                "nombre" : data.nombre,
+                "precio_aproximado" : data.precio_aproximado
+            },
+            "precios" :{
+                "precio_gabinete" : data.precio_aproximado,
+            },
+        })  
+
     return redirect(url_for('builder.armador_manual_vista'))
 
-#Borrar item seleccionado de 'x' componente de la vista de armador manual
+# Borrar item seleccionado de 'x' componente de la vista de armador manual
+
+
 @builder_bp.route('/borrar_componente/<id>')
 def borrar_componente(id):
     if id == '1':
-        session.pop('motherboard_nombre')
-        session.pop('motherboard_precio_aproximado')
-        session.pop('motherboard_socket')
-        session.pop('motherboard_factor_forma')
+        session['armador_manual'].pop('Motherboard',None)
     elif id == '2':
-        session.pop('cpu_nombre')
-        session.pop('cpu_precio_aproximado')
+        session['armador_manual'].pop('CPU',None)
     elif id == '3':
-        session.pop('ram_nombre')
-        session.pop('ram_precio_aproximado')
+        session['armador_manual'].pop('RAM',None)
     elif id == '4':
-        session.pop('gpu_nombre')
-        session.pop('gpu_precio_aproximado')
-        session.pop('gpu_recomendacion_psu')
+        session['armador_manual'].pop('GPU',None)
     elif id == '5':
-        session.pop('almacenamiento1_nombre')
-        session.pop('almacenamiento1_precio_aproximado')
+        session['armador_manual'].pop('Almacenamiento Principal',None)
     elif id == '6':
-        session.pop('almacenamiento2_nombre')
-        session.pop('almacenamiento2_precio_aproximado')
+        session['armador_manual'].pop('Almacenamiento Secundario',None)
     elif id == '7':
-        session.pop('fuente_nombre')
-        session.pop('fuente_precio_aproximado')
+        session['armador_manual'].pop('Fuente',None)
     elif id == '8':
-        session.pop('gabinete_nombre')
-        session.pop('gabinete_precio_aproximado')
+        session['armador_manual'].pop('Gabinete',None)
+    return redirect(url_for('builder.armador_manual_vista'))
+
+@builder_bp.route('/reset_armador')
+def reiniciar_armador():
+    session['armador_manual'].clear()
     return redirect(url_for('builder.armador_manual_vista'))

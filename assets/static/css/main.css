@@ -6,3 +6,84 @@
 .error404plus {
   height: auto;
 }
+
+.color-change-2x {
+	animation: color-change-2x 2s linear infinite alternate both;
+}
+
+/**
+ * ----------------------------------------
+ * animation color-change-2x
+ * ----------------------------------------
+ */
+ @keyframes color-change-2x {
+  0% {
+    background: #19dcea;
+  }
+  100% {
+    background: #b22cff;
+  }
+}
+
+*{
+  
+  font-family: "Roboto";
+}
+
+html, body{
+  height: 100%;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.light-mode{
+  background-color: aqua;
+  background-image: none;
+}
+
+.row-height{
+  height:50rem;
+}
+
+.bg-pan-left {
+	animation: bg-pan-left 8s both;
+  
+}
+
+ @keyframes bg-pan-left {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.item-navsito{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.col-middle{
+  text-align: center;
+  
+}
+
+
+@keyframes fade {
+  0% { opacity: 0 }
+ 20% { opacity: 1 } /* 20% of 5 seconds = 1 second */
+ 80% { opacity: 1 }
+ 100% { opacity: 0 }
+}
+
+.fades {
+ opacity:0;
+ animation: fade ease-in-out 7s;
+ animation-fill-mode: forwards;
+}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} {% block body %}
+<table class="table table-{{config['APP_COLOR_MODE']}} table-striped mt-4">
+  <thead>
+    <tr>
+      {% for key, value in caracteristicas_dato.items() %}
+      <th scope="col">{{value}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>  
+      {% for componente in datos %}
+      {% for columna in datos_columna %} 
+      <td>
+        {{getattr(componente,columna)}} 
+      </td>
+      {% endfor %}
+      <td>
+        <form action="{{url_for('builder.agregar_armador', id = componente.id, component= tipo)}}" method="POST" >
+          <button type="submit" class="btn btn-success btn-block"> Agregar </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

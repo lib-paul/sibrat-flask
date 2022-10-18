@@ -1,7 +1,7 @@
 from utils.db import db
 
 class Ram(db.Model):
-    id_ram = db.Column(db.Integer, primary_key=True , nullable = False)
+    id = db.Column(db.Integer, primary_key=True , nullable = False)
     nombre = db.Column(db.String(75), nullable = False)
     fabricante = db.Column(db.String(75), nullable = False)
     capacidad = db.Column(db.String(75), nullable = False)
@@ -20,3 +20,28 @@ class Ram(db.Model):
         self.tipo = tipo
         self.precio_aproximado = precio_aproximado
         self.web = web
+
+    def caracteristicas_ram():
+        caracteristicas={
+            "1" : "ID",
+            "2" : "Nombre",
+            "3" : "Fabricante",
+            "4" : "Capacidad",
+            "5" : "Velocidad",
+            "6" : "Tipo",
+            "7" : "Precio",
+            "8" : "Opciones"
+        }
+        return caracteristicas
+
+    def columnas_ram():
+        columnas = [
+            "id",
+            "nombre",
+            "fabricante",
+            "capacidad",
+            "velocidad",
+            "tipo",
+            "precio_aproximado"
+        ]
+        return columnas
