@@ -42,19 +42,25 @@
 </table>
 
 <div class="row">
+  {% if session['armador_manual']['Motherboard'] %}
   <div class="col-sm-6">
     <div class="card bg-{{config['APP_COLOR_MODE']}}">
+     
       <div class="card-header">A tener en cuenta...</div>
       <ul class="list-group list-group-flush">
-        {% if session['armador_manual']['Motherboard'] %}
+        
         <li class="list-group-item">Socket requerido en motherboard: {{ session['armador_manual']['Motherboard']['socket']}}</li>
+        {% if session['armador_manual']['Gpu'] %}
         <li class="list-group-item">PSU Minima requerida: {{ session['gpu_recomendacion_psu'] }}</li>
+        {% endif %} 
         <li class="list-group-item">Factor forma de gabinete requerido: {{ session['armador_manual']['Motherboard']['factor_forma']}}</li>
         <li class="list-group-item">Precio aproximado total: $ {{ session['precio_aproximado']}}</li>
-        {% endif %}
+        
       </ul>
     </div>
+
   </div>
+  {% endif %} 
   <div class="col-sm-6">
     <div class="card bg-{{config['APP_COLOR_MODE']}}">
       <div class="card-body">

@@ -215,3 +215,8 @@ def borrar_componente(id):
 def reiniciar_armador():
     session['armador_manual'].clear()
     return redirect(url_for('builder.armador_manual_vista'))
+
+
+@builder_bp.route('/buscar_armados')
+def buscar_armados():
+    return render_template('buscar-armados.html')

@@ -6,3 +6,5 @@ from models.Fuente import Fuente
 from models.Gabinete import Gabinete
 from models.Motherboard import Motherboard
 from models.Gpu import Gpu
+from models.Faq import Faq
+from models.Armados import Armados

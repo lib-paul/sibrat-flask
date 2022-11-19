@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} {% block body %} {% include 'base/mensajes.html' %}
+{% import 'base/macros.html' as components %}
+
+<div class="container text-center pt-4">
+    <h1>FAQ</h1>
+    {% for faqs in faqData %}
+    <div class="row pt-4 pb-4">
+      <div class="col ">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{faqs.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{faqs.id}}" aria-expanded="false" aria-controls="collapse{{faqs.id}}">
+                  {{ faqs.titulo }}
+                </button>
+              </h2>
+              <div id="collapse{{faqs.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{faqs.id}}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  {{ faqs.descripcion }}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+
+{% endblock body %}

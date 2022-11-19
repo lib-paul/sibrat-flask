@@ -1,0 +1,45 @@
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasRight"
+  aria-labelledby="offcanvasRightLabel"
+>
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    {% if config['APP_COLOR_MODE'] == "dark" %}
+    <a href="/mode-swith" class="btn btn-{{config['APP_COLOR_MODE']}}"
+      >Go
+      <span class="text-{{config['APP_TEXT_COLOR_MODE']}}">Light Mode</span></a
+    >
+    {% else %}
+    <a href="/mode-swith" class="btn btn-{{config['APP_COLOR_MODE']}}"
+      >Go
+      <span class="text-{{config['APP_TEXT_COLOR_MODE']}}">Dark Mode</span></a
+    >
+
+    {% endif %} {% if session['username'] %}
+    <a href="/logout" class="btn btn-{{config['APP_COLOR_MODE']}}"
+      >Logout <span class="text-danger">{{ session['username']}}</span></a
+    >
+    {% else %}
+    <a
+      href="/registrarse"
+      class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x"
+      >Register</a
+    >
+    <a
+      href="/iniciar-sesion"
+      class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x"
+      >Login</a
+    >
+    {% endif %}
+  </div>
+</div>

@@ -1,16 +1,18 @@
 {% extends 'layout.html' %} {% block body %} {% include 'base/mensajes.html' %}
+{% import 'base/macros.html' as components %}
 
 {% if session['username']is defined %}
 
+  {% call components.mensaje() -%}
+  Bienvenid@ <strong> recuerda que tienes la sección de preguntas frecuentes en la barra de navegación en la cual podras ver las diferentes caracteristicas con las que cuenta el sitio!</strong>
+  {% endcall -%}
+
   {%else%}
-  <div class="alert alert-info alert-dismissible fade show mt-3 text-center fades" role="alert" id="alert">
-    Hola usuari@! <strong> si quieres usar alguna de las herramientas de nuestro sitio tienes que registrarte y loguearte, gracias!</strong>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
+
+  {% call components.mensaje() -%}
+  Hola usuari@! <strong> si quieres usar alguna de las herramientas de nuestro sitio tienes que registrarte y loguearte, gracias!</strong>
+  {% endcall -%}
+
   {% endif %}
 </div>
 <div class="row align-items-center row-height">
