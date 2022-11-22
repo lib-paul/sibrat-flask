@@ -1,6 +1,8 @@
 from utils.imports_config import *
 from utils.imports_admin import *
 from flask_admin.contrib import sqla
+from contextlib import contextmanager
+
 import os
 
 #---------------------------------------- MODULOS/Blueprints ----------------------------------
@@ -31,6 +33,18 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
+@contextmanager
+def session_scope():
+    session = db.session
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------
 app.register_blueprint(general_bp)
