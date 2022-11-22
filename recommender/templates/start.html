@@ -1,0 +1,38 @@
+{% extends 'layout.html' %} {% block body %}
+
+<div class="container justify-content-center mt-4">
+  <h1><strong>Bienvenid@ {{ session['username'] }} al recomendador</strong></h1>
+  <div class="row align-items-center mt-4 pb-4">
+    <p><strong>Elige de la siguiente lista el articulo que usted desea que el sistema le recomiende o de pautas sobre antes de su proxima compra!</strong></p>
+    <div class="col-4">
+
+      <a href="/recomendador/computadoras"
+        ><img
+          class="imagen-reco img-fluid rounded mx-auto d-block"
+          src="{{url_for('static', filename='images/computer.png')}}"
+          alt="computadora_icon"
+      /></a>
+    </div>
+      <div class="col-4">
+        
+        <a href="recomendador/celulares"
+        ><img
+          class="imagen-reco img-fluid rounded mx-auto d-block"
+          src="{{url_for('static', filename='images/smartphone.svg')}}"
+          alt="computadora_icon"
+      /></a>
+      </div>
+      <div class="col-4">
+
+        <a href="recomendador/monitores"
+        ><img
+          class="imagen-reco img-fluid rounded mx-auto d-block"
+          src="{{url_for('static', filename='images/monitor.svg')}}"
+          alt="computadora_icon"
+      /></a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

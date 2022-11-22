@@ -15,9 +15,26 @@
     {% for key, value in componentes.items() %}
     <tr>
       <th scope="row">{{ key }} - {{ value }}</th>
-      <td class="col-middle"><a href="" class="btn btn-secondary bg-pan-left" ><img class="img-fluid mx-auto d-block rounded" src="{{url_for('static', filename='images/arrow.png')}}" alt=""></a></td>
+
+      <td class="col-middle"><button type="button" class="btn btn-primary bg-pan-left" data-bs-toggle="modal" data-bs-target="#{{value}}"><img class="img-fluid mx-auto d-block rounded" src="{{url_for('static', filename='images/arrow.png')}}" alt="Descripcion"></button></td>
 
       {% if session['armador_manual'][value] %}
+      <div class="modal fade" id="{{value}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{value}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Recuerda que para guardar tu armado personalizado en la base de datos todos los componentes tienen que estar presentes, gracias!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar mensajito :)</button>
+            </div>
+          </div>
+        </div>
+      </div>
                                            
       <td class="col-middle">{{session['armador_manual'][value]['marca']}} {{ session['armador_manual'][value]['nombre'] }}</td>
       <td class="col-middle">{{ session['armador_manual'][value]['precio_aproximado'] }}</td>

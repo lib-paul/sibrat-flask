@@ -7,7 +7,7 @@ import os
 from general.general import general_bp
 from auth.auth import auth_bp
 from builder.builder import builder_bp
-
+from recommender.recommender import recommender_bp
 #---------------------------------------- CARGAR LAS VARIABLES PARA EL ENTORNO DE DESARROLLO ----------------------------------
 from dotenv import load_dotenv
 load_dotenv()
@@ -15,7 +15,7 @@ load_dotenv()
 #---------------------------------------- CONFIGURACION DEL OBJETO FLASK ----------------------------------
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
 app.secret_key = os.environ.get('APP_SECRET_KEY')
-app.config["VERSION"] = "SIBRAT Main v0.7"
+app.config["VERSION"] = "SIBRAT Main v0.8"
 app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.4"
 app.config["APP_COLOR_MODE"] = "dark"
 app.config["APP_TEXT_COLOR_MODE"] ="white"
@@ -34,6 +34,7 @@ SQLAlchemy(app)
 app.register_blueprint(general_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(builder_bp)
+app.register_blueprint(recommender_bp)
 
 #--------------------------------------- CONFIGURACION PARA EL MODULO DE ADMIN ---------------------------------------------------
 class HomeAdminView(AdminIndexView):
@@ -74,6 +75,9 @@ admin.add_view(MyModelView(Almacenamiento,db.session))
 admin.add_view(MyModelView(Fuente,db.session))
 admin.add_view(MyModelView(Gabinete,db.session))
 admin.add_view(MyModelView(Faq,db.session))
+admin.add_view(MyModelView(Pregunta,db.session))
+admin.add_view(MyModelView(Respuesta,db.session))
+admin.add_view(MyModelView(TipoPregunta,db.session))
 
 #Simple Link en el navbar
 admin.add_link(MenuLink(name="Main",url="/"))

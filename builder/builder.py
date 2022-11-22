@@ -145,8 +145,6 @@ def agregar_armador(id, component):
                 "precio_almacenamiento1" : data.precio_aproximado,
             },
         })   
-        print("llegue aca")
-        print(session['armador_manual'].get('Almacenamiento Principal'))
     elif component == 'almacenamiento2':
         data = Almacenamiento.query.get(id)
         session['armador_manual'].update( {
