@@ -11,26 +11,26 @@
   <div class="tab-content" id="pills-tabContent">
     {% for pregunta in preguntas %}
     <div class="tab-pane fade" id="pills-{{ pregunta.id}}" role="tabpanel" aria-labelledby="pills-{{ pregunta.id}}-tab" tabindex="0">{{ pregunta.enunciado }}
-      <select class="form-select form-select-lg mb-3" size="6" aria-label="size 6 select example">
+      <select class="form-select form-select-lg mb-3" size="6" aria-label="size 6 select example" name="{{ pregunta.id }}">
       {% for respuesta in respuestas %}
       {% if respuesta.pregunta_id == pregunta.id %}
       
         
-        <option value="{{ respuesta.respuesta }}">{{ respuesta.respuesta }}</option>
+        <option value="{{ respuesta.respuesta }}" name="{{ respuesta.respuesta }}">{{ respuesta.respuesta }}</option>
         
       
       {% endif %}
       {% endfor %}
     </select>
 
-
+    
     </div>
     {% endfor %}
 
 
-    <button class="btn btn-primary" type="submit">Enviar Respuestas</button>
+    
 
   </div>
-  
+  <button type="submit" class="btn btn-primary">Enviar Datos</button>
 </form>
 {% endblock %}

@@ -12,6 +12,7 @@ from recommender.recommender import recommender_bp
 from dotenv import load_dotenv
 load_dotenv()
 
+
 #---------------------------------------- CONFIGURACION DEL OBJETO FLASK ----------------------------------
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
 app.secret_key = os.environ.get('APP_SECRET_KEY')
@@ -26,9 +27,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 #--------------------------------------- CONFIGURACION PARA SQLALCHEMY/MYSQL/POSGRESQL --------------------------------------
+db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-SQLAlchemy(app)
+db.init_app(app)
 
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------
 app.register_blueprint(general_bp)
