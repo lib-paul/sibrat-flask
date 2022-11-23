@@ -2,6 +2,7 @@ from utils.imports_config import *
 from utils.imports_admin import *
 from flask_admin.contrib import sqla
 from contextlib import contextmanager
+from sqlalchemy import exc
 
 import os
 
@@ -45,6 +46,11 @@ def session_scope():
         raise
     finally:
         session.close()
+
+@app.errorhandler(exc.SQLAlchemyError)
+def handle_db_exceptions(error):
+    print(error)
+    db.session.rollback()
 
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------
 app.register_blueprint(general_bp)

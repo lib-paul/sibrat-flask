@@ -21,3 +21,5 @@ def recomendar_computadora():
     lista = request.form 
     print(lista)
     return render_template('start.html')
+
+   
