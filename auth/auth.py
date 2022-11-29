@@ -62,6 +62,7 @@ def login():
         else:
             session['username'] = logged_user.nombre_cuenta
             message =  f"Bienvenido {logged_user.nombre_cuenta}"
+            session['email'] = logged_user.email
             flash(message)
             url_chain='general/index.html'
             session['loggedin'] = True

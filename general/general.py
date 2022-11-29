@@ -12,3 +12,6 @@ def preguntas_frecuentes():
     faqData = Faq.query.all()
     return render_template('general/faq.html', faqData = faqData)
 
+@general_bp.route('/profile')
+def prefil():
+    return render_template('general/profile.html')

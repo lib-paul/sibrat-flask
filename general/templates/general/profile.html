@@ -1,0 +1,44 @@
+{% extends 'layout.html' %} {% block body %} {% include 'base/mensajes.html' %}
+{% import 'base/macros.html' as components %}
+
+<ul class="list-group pt-4">
+    <li class="list-group-item d-flex justify-content-between align-items-center text-center">
+        <h5>Perfil {{ session['username']}}</h5>
+    </li>
+</ul>
+
+<form data-bitwarden-watching="1">
+    <fieldset>
+      <div class="form-group row pt-4">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <div class="fx-relay-email-input-wrapper"><input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{ session['email']}}" style="padding-right: 30px;"><div class="fx-relay-icon" style="top: 0px; bottom: 0px;"><button class="fx-relay-button" id="fx-relay-button" type="button" title="Generate new mask" style="background-image: url(&quot;moz-extension://9556f8b1-4a17-4f7b-84d3-6583b1298ec2/images/logo-image-fx-relay.svg&quot;);"></button></div></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1" class="form-label mt-4">Cambiar Email</label>
+        <div class="fx-relay-email-input-wrapper"><input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresar nuevo email" style="padding-right: 42px;"><div class="fx-relay-icon" style="top: 0px; bottom: 0px;"><button class="fx-relay-button" id="fx-relay-button" type="button" title="Generate new mask" style="background-image: url(&quot;moz-extension://9556f8b1-4a17-4f7b-84d3-6583b1298ec2/images/logo-image-fx-relay.svg&quot;);"></button></div></div>
+        <small id="emailHelp" class="form-text text-muted">Recuerda que el proceso de cambio puede tardar unos minutos.</small>
+      </div>
+
+
+
+      <div class="form-group pt-4">
+       
+        <h5>Cambiar contraseña</h5>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese contraseña">
+        <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese contraseña devuelta">
+      </div>
+      
+
+   
+    
+     
+      <button type="submit" class="btn btn-primary mt-4">Cambiar</button>
+    </fieldset>
+  </form>
+  
+  
+
+{% endblock body %}
