@@ -12,7 +12,7 @@ def recomendador_inicio():
 def recomendar_computadora_view():
     preguntas = Pregunta.query.all()
     respuestas = Respuesta.query.all()
-    db.session.close
+    db.session.close()
     return render_template('form_computadora.html',preguntas = preguntas, respuestas=respuestas)
 
 @recommender_bp.route('/formulario_computadora', methods=['POST'])

@@ -1,6 +1,5 @@
 from utils.imports_config import *
 from utils.imports_admin import *
-from flask_admin.contrib import sqla
 from contextlib import contextmanager
 from sqlalchemy import exc
 
@@ -20,7 +19,7 @@ load_dotenv()
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
 app.secret_key = os.environ.get('APP_SECRET_KEY')
 app.config["VERSION"] = "SIBRAT Main v0.8"
-app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.4"
+app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.5"
 app.config["APP_COLOR_MODE"] = "dark"
 app.config["APP_TEXT_COLOR_MODE"] ="white"
 app.jinja_env.filters['zip'] = zip
@@ -33,6 +32,7 @@ Session(app)
 db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 10, 'max_overflow': 30}
 db.init_app(app)
 
 @contextmanager
@@ -61,7 +61,6 @@ app.register_blueprint(recommender_bp)
 #--------------------------------------- CONFIGURACION PARA EL MODULO DE ADMIN ---------------------------------------------------
 class HomeAdminView(AdminIndexView):
     def is_accessible(self):
-        print('llegue aca')
         if "admin" in session:
             return session['admin'] == 1
         else:
@@ -77,8 +76,9 @@ admin = Admin(app, name=app.config["VERSION_ADMIN"] ,template_mode="bootstrap4",
 
 
 class MyModelView(ModelView):
+    create_modal = True
+    edit_modal = True
     def is_accessible(self):
-        print('llegue aca')
         if "admin" in session:
             return session['admin'] == 1
         else:
@@ -88,18 +88,23 @@ class MyModelView(ModelView):
         return redirect(url_for('general.Index'))    
 
 #ModelView agrega al navbar las opciones para el ABM
-admin.add_view(MyModelView(User,db.session))
-admin.add_view(MyModelView(Cpu,db.session))
-admin.add_view(MyModelView(Gpu,db.session))
-admin.add_view(MyModelView(Motherboard,db.session))
-admin.add_view(MyModelView(Ram,db.session))
-admin.add_view(MyModelView(Almacenamiento,db.session))
-admin.add_view(MyModelView(Fuente,db.session))
-admin.add_view(MyModelView(Gabinete,db.session))
-admin.add_view(MyModelView(Faq,db.session))
-admin.add_view(MyModelView(Pregunta,db.session))
-admin.add_view(MyModelView(Respuesta,db.session))
-admin.add_view(MyModelView(TipoPregunta,db.session))
+admin.add_view(MyModelView(User,db.session, category="Usuarios"))
+
+admin.add_view(MyModelView(Cpu,db.session,category="Componentes"))
+admin.add_view(MyModelView(Gpu,db.session,category="Componentes"))
+admin.add_view(MyModelView(Motherboard,db.session,category="Componentes"))
+admin.add_view(MyModelView(Ram,db.session,category="Componentes"))
+admin.add_view(MyModelView(Almacenamiento,db.session,category="Componentes"))
+admin.add_view(MyModelView(Fuente,db.session,category="Componentes"))
+admin.add_view(MyModelView(Gabinete,db.session,category="Componentes"))
+
+admin.add_view(MyModelView(Pregunta,db.session,category="Recomendador"))
+admin.add_view(MyModelView(Respuesta,db.session,category="Recomendador"))
+admin.add_view(MyModelView(TipoPregunta,db.session,category="Recomendador"))
+
+admin.add_view(MyModelView(Faq,db.session,category="Sistema"))
+admin.add_view(MyModelView(Armados,db.session,category="Sistema"))
+admin.add_view(MyModelView(TipoArmado,db.session,category="Sistema"))
 
 #Simple Link en el navbar
 admin.add_link(MenuLink(name="Main",url="/"))
@@ -111,6 +116,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+#--------------------------------------- MODO OSCURO ---------------------------------------------------
 @app.route('/mode-swith')
 def mode_switch():
     if app.config["APP_COLOR_MODE"] == "dark":

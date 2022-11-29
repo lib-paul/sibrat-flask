@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} {% block body %}
 
 <table class="table table-{{config['APP_COLOR_MODE']}} table-striped table-hover mt-4 table-responsive">
-
+  {% include 'base/mensajes.html' %} 
   <thead>
     <tr>
       <th scope="col">Componente</th>
@@ -14,10 +14,11 @@
   <tbody>
     {% for key, value in componentes.items() %}
     <tr>
+      <!-- Carga automatica de componentes -->
       <th scope="row">{{ key }} - {{ value }}</th>
-
+      
+      <!-- MODAL CON LOS DATOS ADICIONALES DE CADA COMPONENTE -->
       <td class="col-middle"><button type="button" class="btn btn-primary bg-pan-left" data-bs-toggle="modal" data-bs-target="#{{value}}"><img class="img-fluid mx-auto d-block rounded" src="{{url_for('static', filename='images/arrow.png')}}" alt="Descripcion"></button></td>
-
       {% if session['armador_manual'][value] %}
       <div class="modal fade" id="{{value}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -36,7 +37,13 @@
         </div>
       </div>
                                            
-      <td class="col-middle">{{session['armador_manual'][value]['marca']}} {{ session['armador_manual'][value]['nombre'] }}</td>
+      <td class="col-middle">
+      {{session['armador_manual'][value]['marca']}} {{ session['armador_manual'][value]['nombre'] }}
+
+      {% if value == "RAM" or value == "Almacenamiento Principal" or value == "Almacenamiento Secundario" %}
+      {{ session['armador_manual'][value]['capacidad'] }}
+      {% endif %}
+      </td>
       <td class="col-middle">{{ session['armador_manual'][value]['precio_aproximado'] }}</td>
       {%else%}
       <td></td>
@@ -47,10 +54,22 @@
       <!-- ----------------------------------------------------------------- -->
       <td class="col-middle">
         {% if session['armador_manual'][value] is defined %}
+        <div class="btn-group" role="group" aria-label="Basic example">
         <a href="/borrar_componente/{{ key }}" class="btn btn-danger">Borrar</a>
         <a href="/agregar_componente/{{ key }}" class="btn btn-secondary color-change-2x">Modificar</a>
+        </div>
         {% else %}
         <a href="/agregar_componente/{{ key }}" class="btn btn-secondary color-change-2x">Agregar</a>
+        {% endif %}
+
+
+        {% if value == 'RAM' and session['armador_manual']['RAM'] is defined and session['armador_manual']['RAM']['cant_ram'] < 5 %}
+        
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a class="btn btn-secondary color-change-2x" href="/agregar_ram/">+</a></button>
+          <button type="button" class="btn btn-secondary color-change-2x">{{session['armador_manual']['RAM']['cant_ram']}}</button>
+          <a class="btn btn-secondary color-change-2x" href="/eliminar_ram/">-</a>
+        </div>
         {% endif %}
       </td>
     </tr>
@@ -67,12 +86,13 @@
       <ul class="list-group list-group-flush">
         
         <li class="list-group-item">Socket requerido en motherboard: {{ session['armador_manual']['Motherboard']['socket']}}</li>
-        {% if session['armador_manual']['Gpu'] %}
-        <li class="list-group-item">PSU Minima requerida: {{ session['gpu_recomendacion_psu'] }}</li>
+        {% if session['armador_manual']['GPU'] %}
+        <li class="list-group-item">PSU Minima requerida: {{ session['armador_manual']['GPU']['recomendacion_psu'] }}</li>
         {% endif %} 
         <li class="list-group-item">Factor forma de gabinete requerido: {{ session['armador_manual']['Motherboard']['factor_forma']}}</li>
-        <li class="list-group-item">Precio aproximado total: $ {{ session['precio_aproximado']}}</li>
-        
+        {% if precio_total %}
+        <li class="list-group-item">Precio aproximado total: $ {{ precio_total }}</li>
+        {% endif %}
       </ul>
     </div>
 
@@ -83,10 +103,8 @@
       <div class="card-body">
         <h5 class="card-title">Comandos</h5>
         <p class="card-text">Opciones disponibles para el armador:</p>
-        {% if session['motherboard_nombre'] and session['cpu_nombre'] and session['ram_nombre'] and
-        session['gpu_nombre'] and session['almacenamiento1_nombre'] and session['fuente_nombre'] and
-        session['gabinete_nombre'] %}
-        <a href="/guardar_armado" type="submit" class="btn btn-success btn-block">Guardar en la base de datos</a>
+        {% if len(session['armador_manual']) > 7 %}
+        <a href="/guardar_armado" type="submit" class="btn btn-success btn-block mb-2">Guardar en la base de datos</a>
         {% else %}
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">

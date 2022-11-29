@@ -7,5 +7,5 @@ from models.Gabinete import Gabinete
 from models.Motherboard import Motherboard
 from models.Gpu import Gpu
 from models.Faq import Faq
-from models.Armados import Armados
+from models.Armados import *
 from models.Preguntas_y_Respuestas import *

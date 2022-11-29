@@ -6,6 +6,7 @@ class User(db.Model):
     nombre_cuenta = db.Column(db.String(75))
     password = db.Column(db.String(75))
     admin = db.Column(db.Integer, nullable=True)
+    id_armados = db.relationship('Armados', backref='user')
 
     def __init__(self, email, nombre_cuenta, password, admin):
         self.email = email

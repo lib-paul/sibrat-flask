@@ -35,6 +35,7 @@ def register():
         new_user = User(email=email,nombre_cuenta=name,password=password,admin=admin)
         db.session.add(new_user)
         db.session.commit()
+        db.session.close()
         url_chain='login.html'
         flash(f'Usuario {name} agregado')
         alert_type="alert alert-success"

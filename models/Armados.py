@@ -11,9 +11,10 @@ class Armados(db.Model):
     nombre_alm_secundario =db.Column(db.String(75), nullable= False)
     nombre_fuente = db.Column(db.String(75), nullable= False)
     precio_total =db.Column(db.Integer)
-    tipo_armado = db.Column(db.String(75), nullable= False)
+    tipo_armados = db.Column(db.Integer,db.ForeignKey('tipo_armado.id'))
+    id_usuario = db.Column(db.Integer,db.ForeignKey('user.id_usuario'))
 
-    def __init__(self,nombre_motherboard,nombre_cpu,nombre_ram,cant_ram,nombre_gpu, nombre_alm_principal,nombre_alm_secundario,nombre_fuente,precio_total,tipo_armado):
+    def __init__(self,nombre_motherboard,nombre_cpu,nombre_ram,cant_ram,nombre_gpu, nombre_alm_principal,nombre_alm_secundario,nombre_fuente,precio_total,tipo_armados):
         self.nombre_motherboard = nombre_motherboard
         self.nombre_cpu = nombre_cpu
         self.nombre_ram = nombre_ram
@@ -23,7 +24,7 @@ class Armados(db.Model):
         self.nombre_alm_secundario = nombre_alm_secundario
         self.nombre_fuente = nombre_fuente
         self.precio_total = precio_total
-        self.tipo_armado = tipo_armado
+        self.tipo_armados = tipo_armados
 
     def caracteristicas_armado():
         caracteristicas={
@@ -54,3 +55,14 @@ class Armados(db.Model):
             "precio_total"
         ]
         return columnas
+
+class TipoArmado(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tipo = db.Column(db.String(75), nullable=False)
+    tipo_armados = db.relationship('Armados', backref='tipo_armado')
+
+    def __init__(self,tipo):
+        self.tipo= tipo
+    
+    def __str__(self) -> str:
+        return self.tipo
