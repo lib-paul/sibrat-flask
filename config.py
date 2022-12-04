@@ -10,7 +10,7 @@ from flask_admin import AdminIndexView
 
 #FLASK-SECURITY
 from flask_security import Security, current_user, \
-    hash_password, SQLAlchemySessionUserDatastore, LoginForm, \
+    SQLAlchemySessionUserDatastore, LoginForm, \
     url_for_security, current_user, auth_required, RegisterForm
 from flask_security.views import login, register
 
