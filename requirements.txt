@@ -1,9 +1,22 @@
+-- "FLASK" --
 Flask==2.2.2
-flask_admin==1.6.0
-Flask_SQLAlchemy==2.5.1
-python-dotenv==0.21.0
+Flask_Admin==1.6.0
 Flask-Session==0.4.0
+
+-- "DATABASE" --
+Flask_SQLAlchemy==2.5.1
+SQLAlchemy==1.4.44
+
+-- "SECURITY" ---
+flask_mailman==0.3.0
+flask_security==3.0.0
+Flask_Security_Too==5.0.2
+
+-- "OTHERS" --
+python-dotenv==0.21.0
 gunicorn==20.1.0
 psycopg2-binary==2.9.3
 requests==2.27.1
 mysqlclient
+
+
