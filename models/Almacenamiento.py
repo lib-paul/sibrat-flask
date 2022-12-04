@@ -1,16 +1,18 @@
-import imp
-from utils.db import db
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import Column, Integer, String
 
-class Almacenamiento(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable= False)
-    nombre = db.Column(db.String(75), nullable= False)
-    fabricante = db.Column(db.String(75), nullable= False)
-    capacidad = db.Column(db.String(75), nullable= False)
-    tecnologia_almacenamiento = db.Column(db.String(75), nullable= False)
-    interfaz = db.Column(db.String(75), nullable= False)
-    factor_forma = db.Column(db.String(75), nullable= False)
-    precio_aproximado = db.Column(db.Integer, nullable= False)
-    web = db.Column(db.String(250), nullable= False)
+class Almacenamiento(Base):
+    __tablename__ = 'almacenamiento'
+    id = Column(Integer, primary_key=True, nullable= False)
+    nombre = Column(String(75), nullable= False)
+    fabricante = Column(String(75), nullable= False)
+    capacidad = Column(String(75), nullable= False)
+    tecnologia_almacenamiento = Column(String(75), nullable= False)
+    interfaz = Column(String(75), nullable= False)
+    factor_forma = Column(String(75), nullable= False)
+    precio_aproximado = Column(Integer, nullable= False)
+    web = Column(String(250), nullable= False)
 
     def __init__(self, nombre, fabricante, capacidad, tecnologia_almacenamiento, interfaz, factor_forma, precio_aproximado, web):
         self.nombre = nombre

@@ -1,74 +1,96 @@
-from utils.imports_config import *
-from utils.imports_admin import *
-from contextlib import contextmanager
-from sqlalchemy import exc
+#FLASK
+from flask import Flask,session,render_template,url_for,redirect
+from flask_session import Session
 
+#FLASK-ADMIN
+from flask_admin.contrib.sqla import ModelView  
+from flask_admin.menu import MenuLink
+from flask_admin import Admin
+from flask_admin import AdminIndexView
+
+#FLASK-SECURITY
+from flask_security import Security, current_user, \
+    hash_password, SQLAlchemySessionUserDatastore, LoginForm, \
+    url_for_security, current_user, auth_required, RegisterForm
+from flask_security.views import login, register
+
+#FLASK-MAIL
+from flask_mailman import Mail
+
+#OTHERS
 import os
+from utils.database import init_db, db_session as db
+from utils.imports_admin import *
+
 
 #---------------------------------------- MODULOS/Blueprints ----------------------------------
 from general.general import general_bp
-from auth.auth import auth_bp
 from builder.builder import builder_bp
 from recommender.recommender import recommender_bp
+
 #---------------------------------------- CARGAR LAS VARIABLES PARA EL ENTORNO DE DESARROLLO ----------------------------------
 from dotenv import load_dotenv
 load_dotenv()
 
-
 #---------------------------------------- CONFIGURACION DEL OBJETO FLASK ----------------------------------
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
-app.secret_key = os.environ.get('APP_SECRET_KEY')
+app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
+app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY')
 app.config["VERSION"] = "SIBRAT Main v0.8"
 app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.5"
 app.config["APP_COLOR_MODE"] = "dark"
 app.config["APP_TEXT_COLOR_MODE"] ="white"
+app.config['SECURITY_REGISTERABLE'] = True
+app.config['SECURITY_CONFIRMABLE'] = True
+app.config['SECURITY_RECOVERABLE'] = True
+app.config['SECURITY_CHANGEABLE'] = True
+app.config['SECURITY_TRACKABLE'] = True
+app.config['SECURITY_USERNAME_ENABLE'] = True
+app.config['SECURITY_USERNAME_REQUIRED'] = True
 app.jinja_env.filters['zip'] = zip
+
 #---------------------------------------- CONFIGURACION PARA SESSION --------------------------------------
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Session(app)
 
-#--------------------------------------- CONFIGURACION PARA SQLALCHEMY/MYSQL/POSGRESQL --------------------------------------
-db = SQLAlchemy()
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 10, 'max_overflow': 30}
-db.init_app(app)
+#--------------------------------------- CONFIGURACION SECURITY ---------------------------------------------------
+user_datastore = SQLAlchemySessionUserDatastore(db, User, Role)
+app.security = Security(app, user_datastore)
 
-@contextmanager
-def session_scope():
-    session = db.session
-    try:
-        yield session
-        session.commit()
-    except:
-        session.rollback()
-        raise
-    finally:
-        session.close()
-
-@app.errorhandler(exc.SQLAlchemyError)
-def handle_db_exceptions(error):
-    print(error)
-    db.session.rollback()
-
+#Defino el contexto para los login y register custom esto les permite recibir las validaciones hechas en flask-wtf
+@app.context_processor
+def login_context():
+    return {
+        'url_for_security': url_for_security,
+        'login_user_form': LoginForm(),
+    }
+def register_context():
+    return {
+        'url_for_security': url_for_security,
+        'register_user_form': RegisterForm(),
+    }
+    
+#--------------------------------------- CONFIGURACION MAILS -----------------------------------------------------
+app.config['MAIL_SERVER']=os.environ.get('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS')
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
 #--------------------------------------- REGISTRO DE BLUEPRINTS ---------------------------------------------------
+
 app.register_blueprint(general_bp)
-app.register_blueprint(auth_bp)
 app.register_blueprint(builder_bp)
 app.register_blueprint(recommender_bp)
 
 #--------------------------------------- CONFIGURACION PARA EL MODULO DE ADMIN ---------------------------------------------------
 class HomeAdminView(AdminIndexView):
-    def is_accessible(self):
-        if "admin" in session:
-            return session['admin'] == 1
-        else:
-            return False
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))
-
 
 app.config['FLASK_ADMIN_SWATCH']="darkly"
 app.config['FLASK_ADMIN_FLUID_LAYOUT']= True
@@ -78,33 +100,34 @@ admin = Admin(app, name=app.config["VERSION_ADMIN"] ,template_mode="bootstrap4",
 class MyModelView(ModelView):
     create_modal = True
     edit_modal = True
+
     def is_accessible(self):
-        if "admin" in session:
-            return session['admin'] == 1
-        else:
-            return False
+        print(current_user.roles)
+        return current_user.email
     
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))    
 
-#ModelView agrega al navbar las opciones para el ABM
-admin.add_view(MyModelView(User,db.session, category="Usuarios"))
-
-admin.add_view(MyModelView(Cpu,db.session,category="Componentes"))
-admin.add_view(MyModelView(Gpu,db.session,category="Componentes"))
-admin.add_view(MyModelView(Motherboard,db.session,category="Componentes"))
-admin.add_view(MyModelView(Ram,db.session,category="Componentes"))
-admin.add_view(MyModelView(Almacenamiento,db.session,category="Componentes"))
-admin.add_view(MyModelView(Fuente,db.session,category="Componentes"))
-admin.add_view(MyModelView(Gabinete,db.session,category="Componentes"))
-
-admin.add_view(MyModelView(Pregunta,db.session,category="Recomendador"))
-admin.add_view(MyModelView(Respuesta,db.session,category="Recomendador"))
-admin.add_view(MyModelView(TipoPregunta,db.session,category="Recomendador"))
-
-admin.add_view(MyModelView(Faq,db.session,category="Sistema"))
-admin.add_view(MyModelView(Armados,db.session,category="Sistema"))
-admin.add_view(MyModelView(TipoArmado,db.session,category="Sistema"))
+#MODELOS PARA USUARIOS (PERMISO NECESARIO "ADMIN")
+admin.add_view(MyModelView(User,db, category="Usuarios"))
+admin.add_view(MyModelView(Role,db, category="Usuarios"))
+admin.add_view(MyModelView(RolesUsers,db, category="Usuarios"))
+#MODELOS PARA LOS COMPONENTES (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1)
+admin.add_view(MyModelView(Cpu,db,category="Componentes"))
+admin.add_view(MyModelView(Gpu,db,category="Componentes"))
+admin.add_view(MyModelView(Motherboard,db,category="Componentes"))
+admin.add_view(MyModelView(Ram,db,category="Componentes"))
+admin.add_view(MyModelView(Almacenamiento,db,category="Componentes"))
+admin.add_view(MyModelView(Fuente,db,category="Componentes"))
+admin.add_view(MyModelView(Gabinete,db,category="Componentes"))
+#MODELOS DEL RECOMENDADOR (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1 O 2)
+admin.add_view(MyModelView(Pregunta,db,category="Recomendador"))
+admin.add_view(MyModelView(Respuesta,db,category="Recomendador"))
+admin.add_view(MyModelView(TipoPregunta,db,category="Recomendador"))
+# MODELOS DEL SISTEMA (PERMISO NECESARIO "ADMIN")
+admin.add_view(MyModelView(Faq,db,category="Sistema"))
+admin.add_view(MyModelView(Armados,db,category="Sistema"))
+admin.add_view(MyModelView(TipoArmado,db,category="Sistema"))
 
 #Simple Link en el navbar
 admin.add_link(MenuLink(name="Main",url="/"))
@@ -113,6 +136,7 @@ admin.add_link(MenuLink(name="Main",url="/"))
 @app.errorhandler(404)
 def page_not_found(e):
     # Esto es para el error 404
+    print(current_user)
     return render_template('404.html'), 404
 
 
@@ -124,3 +148,8 @@ def mode_switch():
     else:
         app.config["APP_COLOR_MODE"] = "dark"
     return render_template('general/index.html')
+
+
+
+
+

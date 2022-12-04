@@ -22,7 +22,7 @@
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/">Home</a>
           </li>
-          {% if session['username'] %}
+          {% if session['_user_id'] %}
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/armador_manual">Armado Manual</a>
           </li>
@@ -56,13 +56,14 @@
         >Go <span class="text-{{config['APP_TEXT_COLOR_MODE']}}">Dark Mode</span></a
         >
         {% endif %}
-        {% if session['username'] %}
+        
+        {% if session["_user_id"] %}
         <a href="/logout" class="btn btn-{{config['APP_COLOR_MODE']}}"
-          >Logout <span class="text-danger">{{ session['username']}}</span></a
+          >Logout <span class="text-danger">{{  session['username'] }}</span></a
         >
         {% else %}
-        <a href="/registrarse" class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x">Register</a>
-        <a href="/iniciar-sesion" class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x"
+        <a href="/register" class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x">Register</a>
+        <a href="/login" class="btn btn-{{config['APP_COLOR_MODE']}} color-change-2x"
           >Login</a
         >
         {% endif %}

@@ -1,15 +1,43 @@
-from utils.db import db
+#Otros
+from flask_security import UserMixin, RoleMixin
+from sqlalchemy import create_engine
 
-class User(db.Model):
-    id_usuario = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(75))
-    nombre_cuenta = db.Column(db.String(75))
-    password = db.Column(db.String(75))
-    admin = db.Column(db.Integer, nullable=True)
-    id_armados = db.relationship('Armados', backref='user')
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy import Boolean, DateTime, Column, Integer, \
+                    String, ForeignKey, UnicodeText
 
-    def __init__(self, email, nombre_cuenta, password, admin):
-        self.email = email
-        self.nombre_cuenta = nombre_cuenta
-        self.password = password
-        self.admin = admin
+class RolesUsers(Base):
+    __tablename__ = 'roles_users'
+    id = Column(Integer(), primary_key=True)
+    user_id = Column('user_id', Integer(), ForeignKey('user.id'))
+    role_id = Column('role_id', Integer(), ForeignKey('role.id'))
+
+class Role(Base, RoleMixin):
+    __tablename__ = 'role'
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(80), unique=True)
+    description = Column(String(255))
+    permissions = Column(UnicodeText)
+
+    def __str__(self) -> str:
+        return self.name
+
+class User(Base, UserMixin):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), unique=True)
+    username = Column(String(255), unique=True, nullable=True)
+    password = Column(String(255), nullable=False)
+    last_login_at = Column(DateTime())
+    current_login_at = Column(DateTime())
+    last_login_ip = Column(String(100))
+    current_login_ip = Column(String(100))
+    login_count = Column(Integer)
+    active = Column(Boolean())
+    fs_uniquifier = Column(String(255), unique=True, nullable=False)
+    confirmed_at = Column(DateTime())
+    id_armados = relationship('Armados', backref='user')
+    roles = relationship('Role', secondary='roles_users',
+                         backref=backref('users', lazy='dynamic'))

@@ -1,0 +1,50 @@
+
+{% extends 'layout-login-register.html' %} 
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors %}
+{% block body %}
+<div class="main">
+  <section class="sign-in">
+
+    <div class="container">
+      <div class="signin-content">
+        <div class="signin-image">
+          <figure>
+            <img src="{{url_for('static', filename='images/signin-image.jpg')}}" alt="sing up image" />
+          </figure>
+          <a href="/registrarse" class="signup-image-link">Create an account</a>
+          <a href="/" class="signup-image-link">Go back</a>
+        </div>
+
+
+<div class="signin-form">
+       
+<h1>{{ _fsdomain('Login') }}</h1>
+  <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+    <div class="form-group">
+    {{ login_user_form.hidden_tag() }}
+    {{ render_form_errors(login_user_form) }}
+    {% if "email" in identity_attributes %}
+      {{ render_field_with_errors(login_user_form.email) }}
+    {% endif %}
+    {% if login_user_form.username and "username" in identity_attributes %}
+      {% if "email" in identity_attributes %}
+        <h3>{{ _fsdomain("or") }}</h3>
+      {% endif %}
+      {{ render_field_with_errors(login_user_form.username) }}
+    {% endif %}
+  </div>
+  <div class="form-group">
+    <div class="fs-gap">
+      {{ render_field_with_errors(login_user_form.password) }}</div>
+    {{ render_field_with_errors(login_user_form.remember) }}
+    {{ render_field_errors(login_user_form.csrf_token) }}
+    <div class="form-group form-button">
+    {{ render_field(login_user_form.submit) }}
+  </div>
+  </div>
+  </form>
+</section>
+</div>
+
+{% endblock %}
+

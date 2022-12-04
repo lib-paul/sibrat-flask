@@ -1,14 +1,16 @@
-from utils.db import db
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String, Float
 
-class CpuIntegrada(db.Model):
-    
-    id_cpuIntegrada = db.Column(db.Integer, primary_key=True, nullable=False)
-    nombre = db.Column(db.String(75), nullable=False)
-    frecuencia_max = db.Column(db.String(75), nullable=False)
-    interfaz_memoria = db.Column(db.String(75), nullable=False)
+class CpuIntegrada(Base):
+    __tablename__ = 'cpu_integrada'
+    id_cpuIntegrada = Column(Integer, primary_key=True, nullable=False)
+    nombre = Column(String(75), nullable=False)
+    frecuencia_max = Column(String(75), nullable=False)
+    interfaz_memoria = Column(String(75), nullable=False)
     #A este modelo le falta precio_aproximado.
-    web = db.Column(db.String(250), nullable=False)
-    rendimiento = db.Column(db.Float, nullable=False)
+    web = Column(String(250), nullable=False)
+    rendimiento = Column(Float, nullable=False)
 
     def __init__(self, nombre, frecuencia_max, interfaz_memoria, web, rendimiento):
         self.nombre = nombre

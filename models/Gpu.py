@@ -1,18 +1,19 @@
-from utils.db import db
-
-class Gpu(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(75), nullable= False)
-    fabricante = db.Column(db.String(75), nullable= False)
-    capacidad_memoria = db.Column(db.String(75), nullable= False)
-    tipo_memoria = db.Column(db.String(75), nullable= False)
-    potencia_tipica = db.Column(db.String(75), nullable= False)
-    recomendacion_fuente = db.Column(db.String(75), nullable= False)
-    interfaz_memoria = db.Column(db.String(75), nullable= False)
-    precio_aproximado = db.Column(db.Integer, nullable= False)
-    web = db.Column(db.String(250), nullable= False)
-    rendimiento = db.Column(db.Float, nullable= False)
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String, Float
+class Gpu(Base):
+    __tablename__ = 'gpu'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(75), nullable= False)
+    fabricante = Column(String(75), nullable= False)
+    capacidad_memoria = Column(String(75), nullable= False)
+    tipo_memoria = Column(String(75), nullable= False)
+    potencia_tipica = Column(String(75), nullable= False)
+    recomendacion_fuente = Column(String(75), nullable= False)
+    interfaz_memoria = Column(String(75), nullable= False)
+    precio_aproximado = Column(Integer, nullable= False)
+    web = Column(String(250), nullable= False)
+    rendimiento = Column(Float, nullable= False)
 
 
     def __init__(self, nombre, fabricante, capacidad_memoria, tipo_memoria, potencia_tipica, recomendacion_fuente, interfaz_memoria, precio_aproximado, web, rendimiento):

@@ -1,18 +1,20 @@
-from socket import socket
-from utils.db import db
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String
 
-class Cpu(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable= False)
-    id_integrada = db.Column(db.Integer)
-    nombre = db.Column(db.String(75), nullable= False)
-    fabricante = db.Column(db.String(75), nullable= False)
-    litografia = db.Column(db.String(75), nullable= False)
-    frecuencia_max = db.Column(db.String(75), nullable= False)
-    tdp = db.Column(db.String(75), nullable= False)
-    soporte_memoria = db.Column(db.String(75), nullable= False)
-    zocalo = db.Column(db.String(75), nullable= False)
-    precio_aproximado = db.Column(db.Integer, nullable= False)
-    web = db.Column(db.String(250), nullable= False)
+class Cpu(Base):
+    __tablename__ = 'cpu'
+    id = Column(Integer, primary_key=True, nullable= False)
+    id_integrada = Column(Integer)
+    nombre = Column(String(75), nullable= False)
+    fabricante = Column(String(75), nullable= False)
+    litografia = Column(String(75), nullable= False)
+    frecuencia_max = Column(String(75), nullable= False)
+    tdp = Column(String(75), nullable= False)
+    soporte_memoria = Column(String(75), nullable= False)
+    zocalo = Column(String(75), nullable= False)
+    precio_aproximado = Column(Integer, nullable= False)
+    web = Column(String(250), nullable= False)
 
     def __init__(self, nombre, fabricante, litografia, frecuencia_max, tdp, soporte_memoria, zocalo, precio_aproximado, web):
         self.nombre = nombre

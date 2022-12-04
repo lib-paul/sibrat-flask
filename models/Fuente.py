@@ -1,15 +1,18 @@
-from utils.db import db
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String
 
-class Fuente(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable= False)
-    nombre = db.Column(db.String(75), nullable= False)
-    fabricante = db.Column(db.String(75), nullable= False)
-    certificacion = db.Column(db.String(75), nullable= False)
-    potencia_salida = db.Column(db.String(75), nullable= False)
-    tipo_fuente = db.Column(db.String(75), nullable= False)
-    corrector_fpotencia= db.Column(db.String(75), nullable= False)
-    precio_aproximado = db.Column(db.Integer, nullable= False)
-    web = db.Column(db.String(250), nullable= False)
+class Fuente(Base):
+    __tablename__ = 'fuente'
+    id = Column(Integer, primary_key=True, nullable= False)
+    nombre = Column(String(75), nullable= False)
+    fabricante = Column(String(75), nullable= False)
+    certificacion = Column(String(75), nullable= False)
+    potencia_salida = Column(String(75), nullable= False)
+    tipo_fuente = Column(String(75), nullable= False)
+    corrector_fpotencia= Column(String(75), nullable= False)
+    precio_aproximado = Column(Integer, nullable= False)
+    web = Column(String(250), nullable= False)
 
     def __init__(self, nombre, fabricante, certificacion, potencia_salida, tipo_fuente, corrector_fpotencia, precio_aproximado, web):
         self.nombre = nombre

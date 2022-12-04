@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils.imports_admin import *
+from utils.database import db_session as db
+from flask_security import current_user
 
 
 builder_bp = Blueprint('builder', __name__, template_folder="templates")
@@ -213,7 +215,8 @@ def reiniciar_armador():
 
 @builder_bp.route('/buscar_armados')
 def buscar_armados():
-    data_armados = Armados.query.all()
+    id_usuario_actual = current_user.id
+    data_armados = Armados.query.filter_by(id_usuario = id_usuario_actual)
     return render_template('buscar-armados.html',datos = data_armados)
 
 @builder_bp.route('/guardar_armado')
@@ -221,15 +224,15 @@ def guardar_armado():
     nombres = []
     cant_ram= session['armador_manual']['RAM']['cant_ram']
     precio_total = session['precio_total_armado']
-    id_usuario = User.query.filter(User.nombre_cuenta == session['username'])
+    id_usuario = current_user.id
     if 'armador_manual' in session:
         for nombre in session['armador_manual'].values():
             nombres.append(nombre['marca'] + " " + nombre['nombre'])
     print(nombres)
-    nuevo_armado = Armados(nombres[0],nombres[1],nombres[2],cant_ram,nombres[3],nombres[4],nombres[5],nombres[6],precio_total,1)
-    db.session.add(nuevo_armado)
-    db.session.commit()
-    db.session.close()
+    nuevo_armado = Armados(nombres[0],nombres[1],nombres[2],cant_ram,nombres[3],nombres[4],nombres[5],nombres[6],precio_total,1,id_usuario)
+    db.add(nuevo_armado)
+    db.commit()
+    db.close()
     reiniciar_armador()
     flash('Armado ¡GUARDADO CORRECTAMENTE!')
     return redirect(url_for('builder.armador_manual_vista'))

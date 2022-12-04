@@ -1,10 +1,11 @@
-from utils.db import db
-
-class Faq(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(75), nullable =False)
-    descripcion = db.Column(db.Text, nullable= False) 
+#Para crear la TABLA
+from utils.database import Base
+from sqlalchemy import Column, Integer, String, Text
+class Faq(Base):
+    __tablename__ = 'faq'
+    id = Column(Integer, primary_key=True)
+    titulo = Column(String(75), nullable =False)
+    descripcion = Column(Text, nullable= False) 
 
     def __init__(self, titulo, descripcion):
         self.titulo = titulo

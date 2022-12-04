@@ -1,15 +1,17 @@
-from utils.db import db
-
-class Ram(db.Model):
-    id = db.Column(db.Integer, primary_key=True , nullable = False)
-    nombre = db.Column(db.String(75), nullable = False)
-    fabricante = db.Column(db.String(75), nullable = False)
-    capacidad = db.Column(db.String(75), nullable = False)
-    velocidad = db.Column(db.String(75), nullable = False)
-    formato = db.Column(db.String(75), nullable = False)
-    tipo = db.Column(db.String(75), nullable = False)
-    precio_aproximado = db.Column(db.Integer, nullable = False)
-    web = db.Column(db.String(250), nullable = False)
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String, ForeignKey
+class Ram(Base):
+    __tablename__ = 'ram'
+    id = Column(Integer, primary_key=True , nullable = False)
+    nombre = Column(String(75), nullable = False)
+    fabricante = Column(String(75), nullable = False)
+    capacidad = Column(String(75), nullable = False)
+    velocidad = Column(String(75), nullable = False)
+    formato = Column(String(75), nullable = False)
+    tipo = Column(String(75), nullable = False)
+    precio_aproximado = Column(Integer, nullable = False)
+    web = Column(String(250), nullable = False)
 
     def __init__(self, nombre, fabricante, capacidad, velocidad, formato, tipo, precio_aproximado, web):
         self.nombre = nombre

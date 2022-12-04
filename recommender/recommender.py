@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils.imports_admin import *
+from utils.database import db_session as db
 
 
 recommender_bp = Blueprint('recommender', __name__, template_folder="templates")
@@ -12,7 +13,7 @@ def recomendador_inicio():
 def recomendar_computadora_view():
     preguntas = Pregunta.query.all()
     respuestas = Respuesta.query.all()
-    db.session.close()
+    db.close()
     return render_template('form_computadora.html',preguntas = preguntas, respuestas=respuestas)
 
 @recommender_bp.route('/formulario_computadora', methods=['POST'])

@@ -1,15 +1,18 @@
-from utils.db import db
+#Para la creacion de la TABLA
+from utils.database import Base
+from sqlalchemy import  Column, Integer, String
 
-class Motherboard(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable= False)
-    nombre = db.Column(db.String(75), nullable= False)
-    fabricante = db.Column(db.String(75), nullable= False)
-    zocalo = db.Column(db.String(75), nullable= False)
-    chipset = db.Column(db.String(75), nullable= False)
-    soporte_memoria = db.Column(db.String(75), nullable= False)
-    factor_forma = db.Column(db.String(75), nullable=False)
-    precio_aproximado= db.Column(db.Integer, nullable= False)
-    web = db.Column(db.String(250), nullable= False)
+class Motherboard(Base):
+    __tablename__ = 'motherboard'
+    id = Column(Integer, primary_key=True, nullable= False)
+    nombre = Column(String(75), nullable= False)
+    fabricante = Column(String(75), nullable= False)
+    zocalo = Column(String(75), nullable= False)
+    chipset = Column(String(75), nullable= False)
+    soporte_memoria = Column(String(75), nullable= False)
+    factor_forma = Column(String(75), nullable=False)
+    precio_aproximado= Column(Integer, nullable= False)
+    web = Column(String(250), nullable= False)
 
     def __init__(self, nombre, fabricante, zocalo, chipset, soporte_memoria, factor_forma, precio_aproximado, web):
         self.nombre = nombre
