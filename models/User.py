@@ -1,6 +1,5 @@
 #Otros
 from flask_security import UserMixin, RoleMixin
-from sqlalchemy import create_engine
 
 #Para la creacion de la TABLA
 from utils.database import Base

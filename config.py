@@ -102,7 +102,6 @@ class MyModelView(ModelView):
     edit_modal = True
 
     def is_accessible(self):
-        print(current_user.roles)
         return current_user.email
     
     def inaccessible_callback(self, name, **kwargs):
@@ -136,7 +135,6 @@ admin.add_link(MenuLink(name="Main",url="/"))
 @app.errorhandler(404)
 def page_not_found(e):
     # Esto es para el error 404
-    print(current_user)
     return render_template('404.html'), 404
 
 
