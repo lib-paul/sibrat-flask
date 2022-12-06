@@ -88,6 +88,11 @@ app.register_blueprint(recommender_bp)
 
 #--------------------------------------- CONFIGURACION PARA EL MODULO DE ADMIN ---------------------------------------------------
 class HomeAdminView(AdminIndexView):
+    def is_accessible(self):
+        if current_user is not "Anonymous":
+            return current_user.has_role('admin')
+        else:
+            return False
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))
@@ -102,7 +107,11 @@ class MyModelView(ModelView):
     edit_modal = True
 
     def is_accessible(self):
-        return current_user.email
+        if current_user is not "Anonymous":
+            return current_user.has_role('admin')
+        else:
+            return False
+
     
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))    
