@@ -89,8 +89,8 @@ app.register_blueprint(recommender_bp)
 #--------------------------------------- CONFIGURACION PARA EL MODULO DE ADMIN ---------------------------------------------------
 class HomeAdminView(AdminIndexView):
     def is_accessible(self):
-        if current_user is not "Anonymous":
-            return current_user.has_role('admin')
+        if not current_user.is_anonymous:
+            return current_user.has_role('Administrador')
         else:
             return False
 
@@ -107,8 +107,8 @@ class MyModelView(ModelView):
     edit_modal = True
 
     def is_accessible(self):
-        if current_user is not "Anonymous":
-            return current_user.has_role('admin')
+        if not current_user.is_anonymous:
+            return current_user.has_role('Administrador')
         else:
             return False
 
@@ -148,7 +148,7 @@ def page_not_found(e):
 
 
 #--------------------------------------- MODO OSCURO ---------------------------------------------------
-@app.route('/mode-swith')
+@app.route('/mode-change')
 def mode_switch():
     if app.config["APP_COLOR_MODE"] == "dark":
         app.config["APP_COLOR_MODE"] = "light"

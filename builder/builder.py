@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils.imports_admin import *
 from utils.database import db_session as db
-from flask_security import current_user
+from flask_security import current_user, auth_required
 
 
 builder_bp = Blueprint('builder', __name__, template_folder="templates")
@@ -22,6 +22,7 @@ componentes = {
 
 
 @builder_bp.route('/armador_manual')
+@auth_required()
 def armador_manual_vista():
 
     #Calculadora de Precios :)
@@ -39,6 +40,7 @@ def armador_manual_vista():
 
 
 @builder_bp.route('/agregar_componente/<id>')
+@auth_required()
 def mostrar_componente(id):
     vista_agregar = '/agregar-componente.html'
     if id == '1':
@@ -98,6 +100,7 @@ def mostrar_componente(id):
 
 
 @builder_bp.route('/agregar_armador/<id>/<component>', methods=['POST'])
+@auth_required()
 def agregar_armador(id, component):
     if component == 'motherboard':
         data = Motherboard.query.get(id)
@@ -187,6 +190,7 @@ def agregar_armador(id, component):
 
 
 @builder_bp.route('/borrar_componente/<id>')
+@auth_required()
 def borrar_componente(id):
     if id == '1':
         session['armador_manual'].pop('Motherboard', None)
@@ -208,18 +212,21 @@ def borrar_componente(id):
 
 
 @builder_bp.route('/reset_armador')
+@auth_required()
 def reiniciar_armador():
     session['armador_manual'].clear()
     return redirect(url_for('builder.armador_manual_vista'))
 
 
 @builder_bp.route('/buscar_armados')
+@auth_required()
 def buscar_armados():
     id_usuario_actual = current_user.id
     data_armados = Armados.query.filter_by(id_usuario = id_usuario_actual)
     return render_template('buscar-armados.html',datos = data_armados)
 
 @builder_bp.route('/guardar_armado')
+@auth_required()
 def guardar_armado():
     nombres = []
     cant_ram= session['armador_manual']['RAM']['cant_ram']
@@ -239,6 +246,7 @@ def guardar_armado():
 
 
 @builder_bp.route('/agregar_ram/')
+@auth_required()
 def agregar_ram():
     if 'armador_manual' in session:
         if 'RAM' in session['armador_manual']:
@@ -249,6 +257,7 @@ def agregar_ram():
     return redirect(url_for('builder.armador_manual_vista'))
 
 @builder_bp.route('/eliminar_ram/')
+@auth_required()
 def eliminar_ram():
     if 'armador_manual' in session:
         if 'RAM' in session['armador_manual']:

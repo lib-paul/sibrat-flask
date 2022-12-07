@@ -29,30 +29,31 @@
           <li class="nav-item item-navsito" >
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/profile">Perfil</a>
           </li>
-          <li class="nav-item item-navsito">
-            <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/faq">Preguntas Frecuentes</a>
-          </li>
+
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/recomendador">Recomendador</a>
           </li>
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/soporte">Soporte Tecnico</a>
           </li>
-          {% endif %} {% if session['admin']==1 %}
+          {% endif %} {% if current_user.has_role('Administrador') %}
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/admin">Administrador</a>
           </li>
           {% endif %}
+          <li class="nav-item item-navsito">
+            <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/faq">Preguntas Frecuentes</a>
+          </li>
           
         </ul>
       </div>
       <form class="form-inline my-2 my-lg-0">
         {% if config['APP_COLOR_MODE'] == "dark" %}
-        <a href="/mode-swith" class="btn btn-{{config['APP_COLOR_MODE']}}"
+        <a href="/mode-change" class="btn btn-{{config['APP_COLOR_MODE']}}"
           >Go <span class="text-{{config['APP_TEXT_COLOR_MODE']}}">Light Mode</span></a
         >
         {% else %}
-        <a href="/mode-swith" class="btn btn-{{config['APP_COLOR_MODE']}}"
+        <a href="/mode-change" class="btn btn-{{config['APP_COLOR_MODE']}}"
         >Go <span class="text-{{config['APP_TEXT_COLOR_MODE']}}">Dark Mode</span></a
         >
         {% endif %}
