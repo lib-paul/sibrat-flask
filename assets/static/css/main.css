@@ -80,6 +80,10 @@ body{
   
 }
 
+.form-reco{
+  padding-top: 15%;
+}
+
 
 @keyframes fade {
   0% { opacity: 0 }

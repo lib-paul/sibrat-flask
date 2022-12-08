@@ -19,11 +19,11 @@ def recomendar_computadora_view():
     db.close()
     return render_template('form_computadora.html',preguntas = preguntas, respuestas=respuestas)
 
-@recommender_bp.route('/formulario_computadora', methods=['POST'])
+@recommender_bp.route('/formulario_computadora', methods=['GET','POST'])
 @auth_required()
 def recomendar_computadora():
     print('llegue')
-    lista = request.form 
+    lista = request.form.to_dict(flat=False)
     print(lista)
     return render_template('start.html')
 

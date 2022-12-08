@@ -1,36 +1,86 @@
 {% extends 'layout.html' %} {% block body %}
 <form action="/formulario_computadora" method="post">
-  <ul class="nav nav-pills mb-3 pt-4" id="pills-tab" role="tablist">
-
-    {% for pregunta in preguntas %}
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-{{ pregunta.id}}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{ pregunta.id}}" type="button" role="tab" aria-controls="pills-{{ pregunta.id}}" aria-selected="false">{{ pregunta.titulo }}</button>
-    </li>
-    {% endfor %}
-  </ul>
-  <div class="tab-content" id="pills-tabContent">
-    {% for pregunta in preguntas %}
-    <div class="tab-pane fade" id="pills-{{ pregunta.id}}" role="tabpanel" aria-labelledby="pills-{{ pregunta.id}}-tab" tabindex="0">{{ pregunta.enunciado }}
-      <select class="form-select form-select-lg mb-3" size="6" aria-label="size 6 select example" name="{{ pregunta.id }}">
-      {% for respuesta in respuestas %}
-      {% if respuesta.pregunta_id == pregunta.id %}
-      
-        
-        <option value="{{ respuesta.respuesta }}" name="{{ respuesta.respuesta }}">{{ respuesta.respuesta }}</option>
-        
-      
-      {% endif %}
-      {% endfor %}
-    </select>
-
-    
+  <div class="row form-reco">
+    <div class="col-lg-3">
+      <ul class="nav nav-pills mb-3 pt-4" id="pills-tab" role="tablist">
+        {% for pregunta in preguntas %}
+        <li class="nav-item" role="presentation">
+          {% if pregunta.id == 1 %}
+          <button
+            class="nav-link btn-lg active"
+            id="pills-{{ pregunta.id}}-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-{{ pregunta.id}}"
+            type="button"
+            role="tab"
+            aria-controls="pills-{{ pregunta.id}}"
+            aria-selected="true"
+          >
+            {{ pregunta.id }}- {{ pregunta.titulo }}
+          </button>
+          {% else %}
+          <button
+            class="nav-link btn-lg"
+            id="pills-{{ pregunta.id}}-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-{{ pregunta.id}}"
+            type="button"
+            role="tab"
+            aria-controls="pills-{{ pregunta.id}}"
+            aria-selected="false"
+          >
+            {{ pregunta.id }}- {{ pregunta.titulo }}
+          </button>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
     </div>
-    {% endfor %}
 
+    <div class="col-lg-9">
+      <div class="tab-content" id="pills-tabContent">
+        {% for pregunta in preguntas %} {% if pregunta.id == 1 %}
+        <div
+          class="tab-pane fade show active"
+          id="pills-{{ pregunta.id}}"
+          role="tabpanel"
+          aria-labelledby="pills-{{ pregunta.id}}-tab"
+          tabindex="0"
+        >
+          {{ pregunta.enunciado }} {% else %}
+          <div
+            class="tab-pane fade"
+            id="pills-{{ pregunta.id}}"
+            role="tabpanel"
+            aria-labelledby="pills-{{ pregunta.id}}-tab"
+            tabindex="0"
+          >
+            {{ pregunta.enunciado }} {% endif %}
+            <select
+              class="form-select form-select-lg mb-3"
+              size="6"
+              aria-label="size 6 select example"
+              name="{{ pregunta.id }}"
+            >
+              {% for respuesta in respuestas %} {% if respuesta.pregunta_id ==
+              pregunta.id %}
 
-    
+              <option
+                value="{{ respuesta.respuesta }}"
+                name="{{ respuesta.respuesta }}"
+              >
+                {{ respuesta.respuesta }}
+              </option>
 
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+          {% endfor %}
+
+          <button type="submit" class="btn btn-primary">Enviar Datos</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Enviar Datos</button>
 </form>
 {% endblock %}

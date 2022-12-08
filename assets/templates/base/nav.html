@@ -1,11 +1,7 @@
 {% block nav %}
   <nav class="navbar navbar-expand-lg text-white navbar-{{config['APP_COLOR_MODE']}} bg-{{config['APP_COLOR_MODE']}}">
     <div class="container-fluid">
-      {% if session['admin']==1 %}
       <a class="navbar-brand text-{{config['APP_TEXT_COLOR_MODE']}}" href="/">{{ config["VERSION"] }}</a>
-      {% else %}
-      <a class="navbar-brand text-{{config['APP_TEXT_COLOR_MODE']}}" href="/">{{ config["VERSION"] }}</a>
-      {% endif %}
       <button
         class="navbar-toggler"
         type="button"
