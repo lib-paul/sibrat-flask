@@ -2,32 +2,88 @@
 {% import 'base/macros.html' as components %}
 
 <ul class="list-group pt-4">
-    <li class="list-group-item d-flex justify-content-between align-items-center text-center">
-        <h5>Perfil {{ session['username']}}</h5>
-    </li>
+  <li class="list-group-item d-flex">
+    <h5>Perfil {{ session['username']}}</h5>
+  </li>
 </ul>
 
-<form data-bitwarden-watching="1">
-    <fieldset>
-      <div class="form-group row pt-4">
-        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-          <div class="fx-relay-email-input-wrapper"><input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{ session['email']}}" style="padding-right: 30px;"><div class="fx-relay-icon" style="top: 0px; bottom: 0px;"><button class="fx-relay-button" id="fx-relay-button" type="button" title="Generate new mask" style="background-image: url(&quot;moz-extension://9556f8b1-4a17-4f7b-84d3-6583b1298ec2/images/logo-image-fx-relay.svg&quot;);"></button></div></div>
+
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Datos del Usuario
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <legend>Email</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{current_user.email}}">
+          </div>
+        </div>
+        <legend>Usuario</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{current_user.username}}">
+          </div>
+        </div>
+        <legend>Activo</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{current_user.active}}">
+          </div>
+        </div>
+        <legend>Ultima vez que te logueaste</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{current_user.last_login_at}}">
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1" class="form-label mt-4">Cambiar Email</label>
-        <div class="fx-relay-email-input-wrapper"><input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresar nuevo email" style="padding-right: 42px;"><div class="fx-relay-icon" style="top: 0px; bottom: 0px;"><button class="fx-relay-button" id="fx-relay-button" type="button" title="Generate new mask" style="background-image: url(&quot;moz-extension://9556f8b1-4a17-4f7b-84d3-6583b1298ec2/images/logo-image-fx-relay.svg&quot;);"></button></div></div>
-        <small id="emailHelp" class="form-text text-muted">Recuerda que el proceso de cambio puede tardar unos minutos.</small>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Armados
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
       </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Perfil Profesional
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+</div>
 
 
-   
-    
-      <button type="submit" class="btn btn-primary mt-4">Cambiar</button>
-    </fieldset>
-  </form>
-  
-  
+
+<div class="d-grid gap-2">
+  <a href="/change">
+    <button class="btn btn-primary btn-lg w-100" type="button">
+      Cambiar Contraseña
+    </button>
+  </a>
+  <a href="">
+    <button class="btn btn-primary btn-lg w-100" type="button">
+      Solicitar autorización para volverse Técnico del sitio
+    </button>
+  </a>
+</div>
 
 {% endblock body %}

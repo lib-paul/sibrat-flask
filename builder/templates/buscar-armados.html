@@ -7,7 +7,9 @@
       <th scope="col">Motherboard</th>
       <th scope="col">CPU</th>
       <th scope="col">RAM</th>
+      <th scope="col">Cant RAM</th>
       <th scope="col">GPU</th>
+
       <th scope="col">Almacenamiento Principal</th>
       <th scope="col">Almacenamiento Secundario</th>
       <th scope="col">Fuente</th>
@@ -29,11 +31,13 @@
       <td>{{armados.nombre_alm_principal}}</td>
       <td>{{armados.nombre_alm_secundario}}</td>
       <td>{{armados.nombre_fuente}}</td>
+      <td>{{armados.nombre_gabinete}}</td>
       <td>{{armados.precio_total}}</td>
 
 
       <td>
-          <a href="/eliminar_armado/{{armados.0}}/{{armados.9}}" type="submit" class="btn btn-danger btn-block">Eliminar</a>
+          <a href="/cargar_armado/{{armados.id}}" type="submit" class="btn btn-info btn-block 2x-color-change mb-2">Editar</a>
+          <a href="/eliminar_armado/{{armados.id}}" type="submit" class="btn btn-danger btn-block">Eliminar</a>
       </td>
     </tr>
     {% endfor %}
