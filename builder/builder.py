@@ -29,7 +29,6 @@ def armador_manual_vista():
     # Calculadora de Precios :)
     precio_total = 0
     if 'armador_manual' in session and session['armador_manual'] != {}:
-        print(session['armador_manual'])
         for precios in session['armador_manual'].values():
             if precios is not None and precios.get('precio_aproximado'):
                 precio_total = precios['precio_aproximado'] + precio_total
@@ -216,6 +215,8 @@ def borrar_componente(id):
 @auth_required()
 def reiniciar_armador():
     session['armador_manual'].clear()
+    if 'armador_id' in session:
+        session.pop('armador_id')
     return redirect(url_for('builder.armador_manual_vista'))
 
 
@@ -237,7 +238,6 @@ def guardar_armado():
     if 'armador_manual' in session:
         for nombre in session['armador_manual'].values():
             nombres.append(nombre['nombre'])
-    print(nombres)
     nuevo_armado = Armados(nombres[0], nombres[1], nombres[2], cant_ram, nombres[3],
                            nombres[4], nombres[5], nombres[6], nombres[7], precio_total, 1, id_usuario)
     db.add(nuevo_armado)
@@ -286,9 +286,9 @@ def cargar_armado(id):
     """Necesita refactorizarse (prioridad baja) esto es debido a que se repite el codigo de la ruta para al agregado
        se realizará en una version nueva de la app en otro framework debido a la complejidad del cambio a realizar.
     """
-    
+    session['armador_id'] = armado.id
+    print(session['armador_id'])
     data_motherboard = Motherboard.query.filter_by(nombre = armado.nombre_motherboard).one()
-    print(data_motherboard.nombre)
     session['armador_manual'].update({
         "Motherboard": {
             "marca": data_motherboard.fabricante,
@@ -306,61 +306,85 @@ def cargar_armado(id):
             "precio_aproximado": data_cpu.precio_aproximado
         }
     })
-    # data = Ram.query.get(id)
-    # session['armador_manual'].update({
-    #     "RAM": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado,
-    #         "capacidad": data.capacidad,
-    #         "cant_ram": 1
-    #     }
-    # })
-    # data = Gpu.query.get(id)
-    # session['armador_manual'].update({
-    #     "GPU": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado,
-    #         "recomendacion_psu": data.recomendacion_fuente
-    #     }
-    # })
-    # data = Almacenamiento.query.get(id)
-    # session['armador_manual'].update({
-    #     "Almacenamiento Principal": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado,
-    #         "capacidad": data.capacidad
-    #     }
-    # })
-    # data = Almacenamiento.query.get(id)
-    # session['armador_manual'].update({
-    #     "Almacenamiento Secundario": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado,
-    #         "capacidad": data.capacidad
-    #     }
-    # })
-    # data = Fuente.query.get(id)
-    # session['armador_manual'].update({
-    #     "Fuente": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado
-    #     }
-    # })
-    # data = Gabinete.query.get(id)
-    # session['armador_manual'].update({
-    #     "Gabinete": {
-    #         "marca": data.fabricante,
-    #         "nombre": data.nombre,
-    #         "precio_aproximado": data.precio_aproximado
-    #     }
-    # })
+    data_ram = Ram.query.filter_by(nombre = armado.nombre_ram).one()
+    session['armador_manual'].update({
+        "RAM": {
+            "marca": data_ram.fabricante,
+            "nombre": data_ram.nombre,
+            "precio_aproximado": data_ram.precio_aproximado,
+            "capacidad": data_ram.capacidad,
+            "cant_ram": 1
+        }
+    })
+    data_gpu = Gpu.query.filter_by(nombre = armado.nombre_gpu).one()
+    session['armador_manual'].update({
+        "GPU": {
+            "marca": data_gpu.fabricante,
+            "nombre": data_gpu.nombre,
+            "precio_aproximado": data_gpu.precio_aproximado,
+            "recomendacion_psu": data_gpu.recomendacion_fuente
+        }
+    })
+    data_almacenamiento_1 = Almacenamiento.query.filter_by(nombre = armado.nombre_alm_principal).one()
+    session['armador_manual'].update({
+        "Almacenamiento Principal": {
+            "marca": data_almacenamiento_1.fabricante,
+            "nombre": data_almacenamiento_1.nombre,
+            "precio_aproximado": data_almacenamiento_1.precio_aproximado,
+            "capacidad": data_almacenamiento_1.capacidad
+        }
+    })
+    data_almacenamiento_2 = Almacenamiento.query.filter_by(nombre = armado.nombre_alm_secundario).one()
+    session['armador_manual'].update({
+        "Almacenamiento Secundario": {
+            "marca": data_almacenamiento_2.fabricante,
+            "nombre": data_almacenamiento_2.nombre,
+            "precio_aproximado": data_almacenamiento_2.precio_aproximado,
+            "capacidad": data_almacenamiento_2.capacidad
+        }
+    })
+    data_fuente = Fuente.query.filter_by(nombre = armado.nombre_fuente).one()
+    session['armador_manual'].update({
+        "Fuente": {
+            "marca": data_fuente.fabricante,
+            "nombre": data_fuente.nombre,
+            "precio_aproximado": data_fuente.precio_aproximado
+        }
+    })
+    data_gabinete = Gabinete.query.filter_by(nombre = armado.nombre_gabinete).one()
+    session['armador_manual'].update({
+        "Gabinete": {
+            "marca": data_gabinete.fabricante,
+            "nombre": data_gabinete.nombre,
+            "precio_aproximado": data_gabinete.precio_aproximado
+        }
+    })
     return redirect(url_for('builder.armador_manual_vista'))
 
-@builder_bp.route('/editar_armado/<int:id>')
-def editar_armado(id):
-    pass
+@builder_bp.route('/editar_armado/')
+def editar_armado():
+    if 'armador_id' in session:
+        nombres = []
+        cant_ram = session['armador_manual']['RAM']['cant_ram']
+        precio_total = session['precio_total_armado']
+        if 'armador_manual' in session:
+            for nombre in session['armador_manual'].values():
+                nombres.append(nombre['nombre'])
+            nuevo_armado = {
+            "nombre_motherboard":nombres[0],
+            "nombre_cpu":nombres[1],
+            "nombre_ram":nombres[2],
+            "cant_ram":cant_ram,
+            "nombre_gpu":nombres[3],
+            "nombre_alm_principal":nombres[4],
+            "nombre_alm_secundario":nombres[5],
+            "nombre_fuente":nombres[6], 
+            "nombre_gabinete":nombres[7], 
+            "precio_total":precio_total
+            }
+        db.query(Armados).filter(Armados.id == session['armador_id']).update(nuevo_armado)
+        db.commit()
+        db.flush()
+        reiniciar_armador()
+        flash('Armado ¡EDITADO CORRECTAMENTE!')
+        return redirect(url_for('builder.armador_manual_vista'))

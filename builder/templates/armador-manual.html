@@ -2,6 +2,9 @@
 
 <table class="table table-{{config['APP_COLOR_MODE']}} table-striped table-hover mt-4 table-responsive">
   {% include 'base/mensajes.html' %} 
+  {% if len(session['armador_manual']) > 7 and session['armador_id']  %}
+  <h2 class="tracking-out-expand pt-2">Editando...</h2>
+  {% endif %}
   <thead>
     <tr>
       <th scope="col">Componente</th>
@@ -103,8 +106,10 @@
       <div class="card-body">
         <h5 class="card-title">Comandos</h5>
         <p class="card-text">Opciones disponibles para el armador:</p>
-        {% if len(session['armador_manual']) > 7 %}
-        <a href="/guardar_armado" type="submit" class="btn btn-success btn-block mb-2">Guardar en la base de datos</a>
+        {% if len(session['armador_manual']) > 7 and session['armador_id']  %}
+        <a href="/editar_armado" type="submit" class="btn btn-success btn-block mb-2 jello-horizontal">Editar Armado </a>
+        {% elif  len(session['armador_manual']) > 7  %}
+        <a href="/guardar_armado" type="submit" class="btn btn-success btn-block mb-2">Guardar Armado</a>
         {% else %}
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
