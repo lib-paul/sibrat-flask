@@ -106,40 +106,59 @@ app.config['FLASK_ADMIN_FLUID_LAYOUT']= True
 admin = Admin(app, name=app.config["VERSION_ADMIN"] ,template_mode="bootstrap4", url="/admin", index_view=HomeAdminView(name="Home"))
 
 
-class MyModelView(ModelView):
+class ModeloAdmin(ModelView):
     create_modal = True
     edit_modal = True
-
     def is_accessible(self):
         if not current_user.is_anonymous:
             return current_user.has_role('Administrador')
         else:
             return False
-
-    
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))    
 
+class ModeloTecnico1(ModelView):
+    create_modal = True
+    edit_modal = True
+    def is_accessible(self):
+        if not current_user.is_anonymous:
+            return current_user.has_role('Administrador') or current_user.has_role('Tecnico1')
+        else:
+            return False
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('general.Index'))   
+
+class ModeloTecnico2(ModelView):
+    create_modal = True
+    edit_modal = True
+    def is_accessible(self):
+        if not current_user.is_anonymous:
+            return current_user.has_role('Administrador') or current_user.has_role('Tecnico1') or current_user.has_role('Tecnico2')
+        else:
+            return False
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('general.Index'))   
+
 #MODELOS PARA USUARIOS (PERMISO NECESARIO "ADMIN")
-admin.add_view(MyModelView(User,db, category="Usuarios"))
-admin.add_view(MyModelView(Role,db, category="Usuarios"))
-admin.add_view(MyModelView(RolesUsers,db, category="Usuarios"))
+admin.add_view(ModeloAdmin(User,db, category="Usuarios"))
+admin.add_view(ModeloAdmin(Role,db, category="Usuarios"))
+admin.add_view(ModeloAdmin(RolesUsers,db, category="Usuarios"))
 #MODELOS PARA LOS COMPONENTES (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1)
-admin.add_view(MyModelView(Cpu,db,category="Componentes"))
-admin.add_view(MyModelView(Gpu,db,category="Componentes"))
-admin.add_view(MyModelView(Motherboard,db,category="Componentes"))
-admin.add_view(MyModelView(Ram,db,category="Componentes"))
-admin.add_view(MyModelView(Almacenamiento,db,category="Componentes"))
-admin.add_view(MyModelView(Fuente,db,category="Componentes"))
-admin.add_view(MyModelView(Gabinete,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Cpu,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Gpu,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Motherboard,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Ram,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Almacenamiento,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Fuente,db,category="Componentes"))
+admin.add_view(ModeloTecnico1(Gabinete,db,category="Componentes"))
 #MODELOS DEL RECOMENDADOR (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1 O 2)
-admin.add_view(MyModelView(Pregunta,db,category="Recomendador"))
-admin.add_view(MyModelView(Respuesta,db,category="Recomendador"))
-admin.add_view(MyModelView(TipoPregunta,db,category="Recomendador"))
+admin.add_view(ModeloTecnico2(Pregunta,db,category="Recomendador"))
+admin.add_view(ModeloTecnico2(Respuesta,db,category="Recomendador"))
+admin.add_view(ModeloTecnico2(TipoPregunta,db,category="Recomendador"))
 # MODELOS DEL SISTEMA (PERMISO NECESARIO "ADMIN")
-admin.add_view(MyModelView(Faq,db,category="Sistema"))
-admin.add_view(MyModelView(Armados,db,category="Sistema"))
-admin.add_view(MyModelView(TipoArmado,db,category="Sistema"))
+admin.add_view(ModeloAdmin(Faq,db,category="Sistema"))
+admin.add_view(ModeloAdmin(Armados,db,category="Sistema"))
+admin.add_view(ModeloAdmin(TipoArmado,db,category="Sistema"))
 
 #Simple Link en el navbar
 admin.add_link(MenuLink(name="Main",url="/"))

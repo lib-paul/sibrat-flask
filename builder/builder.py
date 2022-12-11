@@ -197,8 +197,6 @@ def agregar_armador(id, component):
     return redirect(url_for('builder.armador_manual_vista'))
 
 # Borrar item seleccionado de 'x' componente de la vista de armador manual
-
-
 @builder_bp.route('/borrar_componente/<id>')
 @auth_required()
 def borrar_componente(id):
@@ -221,6 +219,7 @@ def borrar_componente(id):
     return redirect(url_for('builder.armador_manual_vista'))
 
 
+#Resetear el armador y tambien el modo de edición
 @builder_bp.route('/reset_armador')
 @auth_required()
 def reiniciar_armador():
@@ -229,7 +228,7 @@ def reiniciar_armador():
         session.pop('armador_id')
     return redirect(url_for('builder.armador_manual_vista'))
 
-
+#Buscar armados del usuario logueado actualmente
 @builder_bp.route('/buscar_armados')
 @auth_required()
 def buscar_armados():
@@ -243,7 +242,7 @@ def buscar_armados():
         cleanup(db) 
     return render_template('buscar-armados.html', datos=data_armados)
 
-
+#Guardar armado una vez esten todos los componentes
 @builder_bp.route('/guardar_armado')
 @auth_required()
 def guardar_armado():
@@ -269,7 +268,7 @@ def guardar_armado():
     flash('Armado ¡GUARDADO CORRECTAMENTE!')
     return redirect(url_for('builder.armador_manual_vista'))
 
-
+#Agrega mas ram al armador max 4 slots
 @builder_bp.route('/agregar_ram/')
 @auth_required()
 def agregar_ram():
@@ -281,7 +280,7 @@ def agregar_ram():
                 flash('Maxima cantidad de RAM alcanzada')
     return redirect(url_for('builder.armador_manual_vista'))
 
-
+#Elimina ram minimo 1
 @builder_bp.route('/eliminar_ram/')
 @auth_required()
 def eliminar_ram():
@@ -293,7 +292,7 @@ def eliminar_ram():
                 flash('Minima cantidad de RAM alcanzada')
     return redirect(url_for('builder.armador_manual_vista'))
 
-
+#Elimina un armado hecho por el usuario actual
 @builder_bp.route('/eliminar_armado/<int:id>')
 @auth_required()
 def eliminar_armado(id):
@@ -308,7 +307,7 @@ def eliminar_armado(id):
         cleanup(db) 
     return redirect(url_for('builder.buscar_armados'))
 
-
+#Carga un armado para su edicion desde la lista de armados
 @builder_bp.route('/cargar_armado/<int:id>')
 @auth_required()
 def cargar_armado(id):
@@ -397,6 +396,7 @@ def cargar_armado(id):
         print(e)
     return redirect(url_for('builder.armador_manual_vista'))
 
+#Guarda el armado editado usando el mismo id con el que llego
 @builder_bp.route('/editar_armado/')
 @auth_required()
 def editar_armado():
@@ -430,8 +430,6 @@ def editar_armado():
             print(e)
         finally:
             cleanup(db) 
-            
-        
-        
+
         flash('Armado ¡EDITADO CORRECTAMENTE!')
         return redirect(url_for('builder.armador_manual_vista'))
