@@ -55,6 +55,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Session(app)
 
+
+
+
+
 #--------------------------------------- CONFIGURACION SECURITY ---------------------------------------------------
 user_datastore = SQLAlchemySessionUserDatastore(db, User, Role)
 app.security = Security(app, user_datastore)

@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils.imports_admin import *
-from utils.database import db_session as db
+from utils.database import db_session as db, cleanup
+
 from flask_security import current_user, auth_required
-from sqlalchemy import delete, select
+from sqlalchemy import delete
 
 
 builder_bp = Blueprint('builder', __name__, template_folder="templates")
@@ -93,7 +94,10 @@ def mostrar_componente(id):
         datos_columna = Gabinete.columnas_gabinete()
     else:
         return render_template('armador-manual.html')
-
+    try:
+        cleanup(db) 
+    except Exception as e:
+        print(e)
     return render_template(vista_agregar, datos=datos, id=id, caracteristicas_dato=caracteristicas_dato, componente=componente, tipo=tipo, datos_columna=datos_columna, getattr=getattr, zip=zip)
 
 # Agregar item de 'x' componente a la vista de armador manual
@@ -183,7 +187,13 @@ def agregar_armador(id, component):
                 "precio_aproximado": data.precio_aproximado
             }
         })
-
+    try:
+        cleanup(db) 
+    except Exception as e:
+        db.rollback()
+        print(e)
+    
+    
     return redirect(url_for('builder.armador_manual_vista'))
 
 # Borrar item seleccionado de 'x' componente de la vista de armador manual
@@ -223,8 +233,14 @@ def reiniciar_armador():
 @builder_bp.route('/buscar_armados')
 @auth_required()
 def buscar_armados():
-    id_usuario_actual = current_user.id
-    data_armados = Armados.query.filter_by(id_usuario=id_usuario_actual)
+    try:
+        id_usuario_actual = current_user.id
+        data_armados = Armados.query.filter_by(id_usuario=id_usuario_actual) 
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cleanup(db) 
     return render_template('buscar-armados.html', datos=data_armados)
 
 
@@ -240,8 +256,15 @@ def guardar_armado():
             nombres.append(nombre['nombre'])
     nuevo_armado = Armados(nombres[0], nombres[1], nombres[2], cant_ram, nombres[3],
                            nombres[4], nombres[5], nombres[6], nombres[7], precio_total, 1, id_usuario)
-    db.add(nuevo_armado)
-    db.commit()
+    try:
+        db.add(nuevo_armado)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cleanup(db)
+
     reiniciar_armador()
     flash('Armado ¡GUARDADO CORRECTAMENTE!')
     return redirect(url_for('builder.armador_manual_vista'))
@@ -272,14 +295,22 @@ def eliminar_ram():
 
 
 @builder_bp.route('/eliminar_armado/<int:id>')
+@auth_required()
 def eliminar_armado(id):
-    Armados_Delete = delete(Armados).where(Armados.id == id)
-    db.execute(Armados_Delete)
-    db.commit()
+    try:
+        Armados_Delete = delete(Armados).where(Armados.id == id)
+        db.execute(Armados_Delete)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        print(e)
+    finally:
+        cleanup(db) 
     return redirect(url_for('builder.buscar_armados'))
 
 
 @builder_bp.route('/cargar_armado/<int:id>')
+@auth_required()
 def cargar_armado(id):
     armado = Armados.query.get(id)
 
@@ -287,7 +318,7 @@ def cargar_armado(id):
        se realizará en una version nueva de la app en otro framework debido a la complejidad del cambio a realizar.
     """
     session['armador_id'] = armado.id
-    print(session['armador_id'])
+
     data_motherboard = Motherboard.query.filter_by(nombre = armado.nombre_motherboard).one()
     session['armador_manual'].update({
         "Motherboard": {
@@ -359,9 +390,15 @@ def cargar_armado(id):
             "precio_aproximado": data_gabinete.precio_aproximado
         }
     })
+    try:
+        cleanup(db) 
+    except Exception as e:
+        db.rollback()
+        print(e)
     return redirect(url_for('builder.armador_manual_vista'))
 
 @builder_bp.route('/editar_armado/')
+@auth_required()
 def editar_armado():
     if 'armador_id' in session:
         nombres = []
@@ -382,9 +419,19 @@ def editar_armado():
             "nombre_gabinete":nombres[7], 
             "precio_total":precio_total
             }
-        db.query(Armados).filter(Armados.id == session['armador_id']).update(nuevo_armado)
-        db.commit()
-        db.flush()
-        reiniciar_armador()
+
+        try:
+            db.query(Armados).filter(Armados.id == session['armador_id']).update(nuevo_armado)
+            db.commit()
+            db.flush()
+            reiniciar_armador()
+        except Exception as e:
+            db.rollback()
+            print(e)
+        finally:
+            cleanup(db) 
+            
+        
+        
         flash('Armado ¡EDITADO CORRECTAMENTE!')
         return redirect(url_for('builder.armador_manual_vista'))

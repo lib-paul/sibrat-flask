@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from utils.imports_admin import *
-from utils.database import db_session as db
+from utils.database import db_session as db, cleanup
 from flask_security import auth_required
 
 
@@ -14,9 +14,15 @@ def recomendador_inicio():
 @recommender_bp.route('/recomendador/computadoras')
 @auth_required()
 def recomendar_computadora_view():
-    preguntas = Pregunta.query.all()
-    respuestas = Respuesta.query.all()
-    db.close()
+    try:
+        preguntas = Pregunta.query.all()
+        respuestas = Respuesta.query.all()
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cleanup(db)
+
     return render_template('form_computadora.html',preguntas = preguntas, respuestas=respuestas)
 
 @recommender_bp.route('/formulario_computadora', methods=['GET','POST'])

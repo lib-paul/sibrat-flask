@@ -2,7 +2,7 @@
 
 <table class="table table-{{config['APP_COLOR_MODE']}} table-striped table-hover mt-4 table-responsive">
   {% include 'base/mensajes.html' %} 
-  {% if len(session['armador_manual']) > 7 and session['armador_id']  %}
+  {% if session['armador_id']  %}
   <h2 class="tracking-out-expand pt-2">Editando...</h2>
   {% endif %}
   <thead>
