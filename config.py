@@ -11,7 +11,7 @@ from flask_admin import AdminIndexView
 #FLASK-SECURITY
 from flask_security import Security, current_user, \
     SQLAlchemySessionUserDatastore, LoginForm, \
-    url_for_security, current_user, auth_required, RegisterForm
+    url_for_security, current_user, auth_required, RegisterForm, ResetPasswordForm, ForgotPasswordForm
 from flask_security.views import login, register
 
 #FLASK-MAIL
@@ -75,6 +75,18 @@ def register_context():
         'url_for_security': url_for_security,
         'register_user_form': RegisterForm(),
     }
+def reset_password_context():
+    return {
+        'url_for_security': url_for_security,
+        'forgot_password_form': ForgotPasswordForm(),
+        'reset_password_form': ResetPasswordForm(),
+    }
+def forgot_password_context():
+    return {
+        'url_for_security': url_for_security,
+        'forgot_password_form': ForgotPasswordForm(),
+        'reset_password_form': ResetPasswordForm(),
+    }
     
 #--------------------------------------- CONFIGURACION MAILS -----------------------------------------------------
 app.config['MAIL_SERVER']=os.environ.get('MAIL_SERVER')
@@ -94,7 +106,7 @@ app.register_blueprint(recommender_bp)
 class HomeAdminView(AdminIndexView):
     def is_accessible(self):
         if not current_user.is_anonymous:
-            return current_user.has_role('Administrador')
+            return current_user.has_role('Administrador') or current_user.has_role('Tecnico1') or current_user.has_role('Tecnico2')
         else:
             return False
 
@@ -111,11 +123,15 @@ class ModeloAdmin(ModelView):
     edit_modal = True
     def is_accessible(self):
         if not current_user.is_anonymous:
-            return current_user.has_role('Administrador')
+            return current_user.has_role('Administrador') 
         else:
             return False
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('general.Index'))    
+
+class ModeloAdminUser(ModeloAdmin):
+    column_exclude_list = ['password']
+    form_excluded_columns = ['password', 'fs_uniquifier', 'login_count' , 'confirmed_at' , 'last_login_ip', 'current_login_ip', 'last_login_at' , 'current_login_at']
 
 class ModeloTecnico1(ModelView):
     create_modal = True
@@ -140,7 +156,7 @@ class ModeloTecnico2(ModelView):
         return redirect(url_for('general.Index'))   
 
 #MODELOS PARA USUARIOS (PERMISO NECESARIO "ADMIN")
-admin.add_view(ModeloAdmin(User,db, category="Usuarios"))
+admin.add_view(ModeloAdminUser(User,db, category="Usuarios"))
 admin.add_view(ModeloAdmin(Role,db, category="Usuarios"))
 admin.add_view(ModeloAdmin(RolesUsers,db, category="Usuarios"))
 #MODELOS PARA LOS COMPONENTES (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1)

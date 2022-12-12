@@ -1,4 +1,6 @@
 {% extends 'layout.html' %} {% block body %}
+{% if hay_armados > 0  %}
+
 <table class="table table-dark table-striped pt-4 mt-4">
 
   <thead>
@@ -42,6 +44,13 @@
     </tr>
     {% endfor %}
   </tbody>
-
 </table>
+{% else %}
+
+<div class="alert alert-dismissible alert-warning mt-4 bg-primary">
+  <h4 class="alert-heading">Nada por aqui!</h4>
+  <p class="mb-0">No se encontro ningun armado! <a href="/armador_manual" class="alert-link">Volver al armador</a>.</p>
+</div>
+
+{% endif %}
 {% endblock %}

@@ -3,7 +3,7 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors %}
 {% block body %}
 <div class="main">
-  <section class="sign-in">
+
 
     <div class="container">
       <div class="signin-content">
@@ -13,7 +13,10 @@
           </figure>
           <a href="/register" class="signup-image-link">Create an account</a>
           <a href="/" class="signup-image-link">Go back</a>
-        </div>
+          
+        </div> 
+                            
+
 
 
 <div class="signin-form">
@@ -43,6 +46,7 @@
   </div>
   </div>
   </form>
+  {% include "security/_menu.html" %}
 </section>
 </div>
 

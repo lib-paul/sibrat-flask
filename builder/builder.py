@@ -235,12 +235,14 @@ def buscar_armados():
     try:
         id_usuario_actual = current_user.id
         data_armados = Armados.query.filter_by(id_usuario=id_usuario_actual) 
+        hay_armados = Armados.query.filter_by(id_usuario=id_usuario_actual).count() 
     except Exception as e:
         db.rollback()
         raise e
     finally:
-        cleanup(db) 
-    return render_template('buscar-armados.html', datos=data_armados)
+        cleanup(db)
+    
+    return render_template('buscar-armados.html', datos=data_armados, hay_armados = hay_armados)
 
 #Guardar armado una vez esten todos los componentes
 @builder_bp.route('/guardar_armado')
