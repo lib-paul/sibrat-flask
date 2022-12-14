@@ -132,6 +132,7 @@ def agregar_armador(id, component):
                 "marca": data.fabricante,
                 "nombre": data.nombre,
                 "precio_aproximado": data.precio_aproximado,
+                "precio_original" : data.precio_aproximado,
                 "capacidad": data.capacidad,
                 "cant_ram": 1
             }
@@ -237,7 +238,8 @@ def buscar_armados():
         hay_armados = Armados.query.filter_by(id_usuario=id_usuario_actual).count() 
     except Exception as e:
         db.rollback()
-        raise e
+        print(e)
+        flash('Ocurrio un error')
     finally:
         cleanup(db)
     
@@ -259,13 +261,15 @@ def guardar_armado():
     try:
         db.add(nuevo_armado)
         db.commit()
+        reiniciar_armador()
     except Exception as e:
         db.rollback()
-        raise e
+        print(e)
+        flash('Ocurrio un error')
     finally:
         cleanup(db)
+        
 
-    reiniciar_armador()
     flash('Armado ¡GUARDADO CORRECTAMENTE!')
     return redirect(url_for('builder.armador_manual_vista'))
 
@@ -275,8 +279,10 @@ def guardar_armado():
 def agregar_ram():
     if 'armador_manual' in session:
         if 'RAM' in session['armador_manual']:
+            precio_original = session['armador_manual']['RAM']['precio_original']
             if session['armador_manual']['RAM']['cant_ram'] < 4:
                 session['armador_manual']['RAM']['cant_ram'] += 1
+                session['armador_manual']['RAM']['precio_aproximado'] = session['armador_manual']['RAM']['cant_ram'] * precio_original
             else:
                 flash('Maxima cantidad de RAM alcanzada')
     return redirect(url_for('builder.armador_manual_vista'))
@@ -287,8 +293,10 @@ def agregar_ram():
 def eliminar_ram():
     if 'armador_manual' in session:
         if 'RAM' in session['armador_manual']:
+            precio_original = session['armador_manual']['RAM']['precio_original']
             if session['armador_manual']['RAM']['cant_ram'] > 1:
                 session['armador_manual']['RAM']['cant_ram'] -= 1
+                session['armador_manual']['RAM']['precio_aproximado'] = session['armador_manual']['RAM']['cant_ram'] * precio_original
             else:
                 flash('Minima cantidad de RAM alcanzada')
     return redirect(url_for('builder.armador_manual_vista'))

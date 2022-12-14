@@ -103,5 +103,5 @@ def contacto():
             )
             msg.send()
             flash('¡Mensaje Enviado!')
-            return redirect(url_for('general.index'))
+            return redirect(url_for('general.Index'))
     return render_template('general/contacto.html')

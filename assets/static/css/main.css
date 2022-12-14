@@ -105,11 +105,7 @@ body{
  opacity:0;
  animation: fade ease-in-out 7s;
  animation-fill-mode: forwards;
- position: fixed;
-width: auto;
- border: solid;
- right: 25%;
- left: 25%;
+
 }
 
 
