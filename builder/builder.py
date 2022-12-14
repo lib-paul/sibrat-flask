@@ -5,7 +5,6 @@ from utils.database import db_session as db, cleanup
 from flask_security import current_user, auth_required
 from sqlalchemy import delete
 
-
 builder_bp = Blueprint('builder', __name__, template_folder="templates")
 
 

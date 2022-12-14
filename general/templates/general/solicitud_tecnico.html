@@ -2,12 +2,12 @@
 {% import 'base/macros.html' as components %}
 <form action="/solicitar_tecnico" method="post">
   <div class="d-flex justify-content-center">
-    <div class="form-group w-75 pt-4">
+    <div class="form-group w-75 pt-4 text-{{config['APP_TEXT_COLOR_MODE']}} ">
       <label class="form-label mt-4">Formulario para alta de tecnico</label>
       <div class="form-floating mb-3">
         <input
           type="text"
-          class="form-control"
+          class="form-control bg-{{config['APP_COLOR_MODE']}}"
           id="floatingInput"
           placeholder="wwww."
           name="link_profesional"
@@ -17,7 +17,7 @@
       <div class="form-floating mb-3">
         <input
           type="text"
-          class="form-control"
+          class="form-control bg-{{config['APP_COLOR_MODE']}}"
           id="floatingInput"
           placeholder="Título alcanzado"
           name="titulo"
@@ -25,10 +25,10 @@
         <label for="floatingText">Titulo</label>
       </div>
 
-      <div class="form-floating">
+      <div class="form-floating ">
         <input
           type="text"
-          class="form-control"
+          class="form-control bg-{{config['APP_COLOR_MODE']}}"
           id="floatingText"
           placeholder="Descripción adicional"
           name="descripcion_adicional"

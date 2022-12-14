@@ -1,0 +1,42 @@
+{% extends 'layout.html' %} {% block body %} {% include 'base/mensajes.html' %}
+{% import 'base/macros.html' as components %}
+<form action="/contacto" method="post">
+  <div class="d-flex justify-content-center">
+    <div class="form-group w-75 pt-4 text-{{config['APP_TEXT_COLOR_MODE']}} ">
+      <label class="form-label mt-4">¿En que l@ podemos ayudar?</label>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control bg-{{config['APP_COLOR_MODE']}}"
+          id="floatingInput"
+          placeholder="Nombre"
+          name="nombre"
+        />
+        <label for="floatingText">Nombre</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control bg-{{config['APP_COLOR_MODE']}}"
+          id="floatingInput"
+          placeholder="Email"
+          name="email"
+        />
+        <label for="floatingText">Email</label>
+      </div>
+
+
+
+      <div class="form-group">
+        <label for="exampleTextarea" class="form-label mt-4"
+          >Describa su inquietud o su comentario aqui</label
+        >
+        <textarea class="form-control" id="exampleTextarea" rows="4" name="texto-largo"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-4">Enviar</button>
+    </div>
+  </div>
+</form>
+{% endblock body %}

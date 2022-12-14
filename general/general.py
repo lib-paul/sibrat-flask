@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, session, request, flash,redirect,u
 from utils.imports_admin import Faq, Tecnico
 from utils.database import cleanup, db_session as db
 from flask_security import current_user, auth_required
+from flask_mailman import EmailMessage
+import os
 
 general_bp = Blueprint('general',__name__, template_folder='templates')
 
@@ -79,3 +81,27 @@ def solicitar_tecnico():
                     print(e)
             return redirect(url_for('general.perfil'))
     return render_template('general/solicitud_tecnico.html')
+
+@general_bp.route('/contacto', methods=['GET','POST'])
+def contacto():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        mensaje = request.form['texto-largo']
+        email = request.form['email']
+        if nombre == "" or mensaje == "" or email == "":
+            flash('Tenes campos vacios')
+        else:
+            receptor = os.environ.get('MAIL_USERNAME')
+            msg = EmailMessage(
+            'Consulta recibida SIBRAT de' + nombre,
+            mensaje,
+            email,
+            [receptor],
+            [''],
+            reply_to=[email],
+            headers={'Message-ID': 'foo'},
+            )
+            msg.send()
+            flash('¡Mensaje Enviado!')
+            return redirect(url_for('general.index'))
+    return render_template('general/contacto.html')

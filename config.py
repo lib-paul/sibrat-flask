@@ -36,8 +36,8 @@ load_dotenv()
 app = Flask(__name__, template_folder='assets/templates', static_folder='assets/static')
 app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
 app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY')
-app.config["VERSION"] = "SIBRAT Main v0.8"
-app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.5"
+app.config["VERSION"] = "SIBRAT Main v0.9"
+app.config["VERSION_ADMIN"] = "SIBRAT Admin v0.6"
 app.config["APP_COLOR_MODE"] = "dark"
 app.config["APP_TEXT_COLOR_MODE"] ="white"
 app.config['SECURITY_REGISTERABLE'] = True
