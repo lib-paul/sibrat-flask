@@ -130,6 +130,7 @@ class ModeloAdmin(ModelView):
         return redirect(url_for('general.Index'))    
 
 class ModeloAdminUser(ModeloAdmin):
+    column_searchable_list = ['username']
     column_exclude_list = ['password']
     form_excluded_columns = ['password', 'fs_uniquifier', 'login_count' , 'confirmed_at' , 'last_login_ip', 'current_login_ip', 'last_login_at' , 'current_login_at']
 
@@ -159,6 +160,7 @@ class ModeloTecnico2(ModelView):
 admin.add_view(ModeloAdminUser(User,db, category="Usuarios"))
 admin.add_view(ModeloAdmin(Role,db, category="Usuarios"))
 admin.add_view(ModeloAdmin(RolesUsers,db, category="Usuarios"))
+admin.add_view(ModeloAdmin(Tecnico,db, category="Usuarios"))
 #MODELOS PARA LOS COMPONENTES (PERMISO NECESARIO "ADMIN" O "TECNICO" NIVEL 1)
 admin.add_view(ModeloTecnico1(Cpu,db,category="Componentes"))
 admin.add_view(ModeloTecnico1(Gpu,db,category="Componentes"))

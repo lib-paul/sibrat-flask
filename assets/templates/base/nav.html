@@ -32,7 +32,7 @@
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/soporte">Soporte Tecnico</a>
           </li>
-          {% endif %} {% if current_user.has_role('Administrador') %}
+          {% endif %} {% if current_user.has_role('Administrador') or current_user.has_role('Tecnico1')  or current_user.has_role('Tecnico2') %}
           <li class="nav-item item-navsito">
             <a class="nav-link text-{{config['APP_TEXT_COLOR_MODE']}}" href="/admin">Administrador</a>
           </li>

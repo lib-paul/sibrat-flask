@@ -7,8 +7,6 @@
   </li>
 </ul>
 
-
-
 <div class="accordion" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
@@ -53,10 +51,15 @@
     </h2>
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <a href="/buscar_armados">
+         <button class="btn btn-primary btn-lg w-100" type="button">
+           Ver Armados
+        </button>
+      </a>
       </div>
     </div>
   </div>
+  {% if current_user.has_role('Tecnico1') or current_user.has_role('Tecnico2')%}
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -65,10 +68,39 @@
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <legend>Link Profesional</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{tecnico.link_profesional}}">
+          </div>
+        </div>
+        <legend>Titulo</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="{{tecnico.titulo}}">
+          </div>
+        </div>
+        {% if current_user.has_role('Tecnico1')%}
+        <legend>Permiso otorgado</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="Tecnico NIVEL 1">
+          </div>
+        </div>
+        {% elif current_user.has_role('Tecnico2')%}
+        <legend>Permiso otorgado</legend>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="Tecnico NIVEL 2">
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>
+  {% else %}
+  <div></div>
+  {% endif %}
 </div>
 
 
@@ -79,11 +111,15 @@
       Cambiar Contraseña
     </button>
   </a>
-  <a href="">
+  {% if current_user.has_role('Tecnico1') or current_user.has_role('Tecnico2')%}
+  <div></div>
+  {% else %}
+  <a href="/solicitar_tecnico">
     <button class="btn btn-primary btn-lg w-100" type="button">
       Solicitar autorización para volverse Técnico del sitio
     </button>
   </a>
+  {% endif %}
 </div>
 
 {% endblock body %}

@@ -1,4 +1,4 @@
-from models.User import User, Role, RolesUsers
+from models.User import User, Role, RolesUsers, Tecnico
 from models.Ram import Ram
 from models.Almacenamiento import Almacenamiento
 from models.Cpu import Cpu
