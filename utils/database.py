@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-engine = create_engine(os.environ.get('DATABASE_CREATE'), pool_size=60, max_overflow=-1,pool_pre_ping=True)
+engine = create_engine(os.environ.get('DATABASE_CREATE'), pool_size=100, max_overflow=-1,pool_pre_ping=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))

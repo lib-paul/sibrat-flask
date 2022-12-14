@@ -105,6 +105,11 @@ body{
  opacity:0;
  animation: fade ease-in-out 7s;
  animation-fill-mode: forwards;
+ position: fixed;
+width: auto;
+ border: solid;
+ right: 25%;
+ left: 25%;
 }
 
 
@@ -276,4 +281,13 @@ body{
     letter-spacing: 1em;
     opacity: 0;
   }
+}
+
+.accordion-button {
+  box-shadow: none;
+  border-color: rgba(255, 0, 0, 0.952);
+}
+
+.profile-name{
+  border: solid;
 }

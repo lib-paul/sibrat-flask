@@ -1,5 +1,5 @@
 #FLASK
-from flask import Flask,session,render_template,url_for,redirect
+from flask import Flask,session,render_template,url_for,redirect,request
 from flask_session import Session
 
 #FLASK-ADMIN
@@ -179,7 +179,8 @@ admin.add_view(ModeloAdmin(Armados,db,category="Sistema"))
 admin.add_view(ModeloAdmin(TipoArmado,db,category="Sistema"))
 
 #Simple Link en el navbar
-admin.add_link(MenuLink(name="Main",url="/"))
+admin.add_link(MenuLink(name="Salir del Administrador",url="/"))
+
 
 #--------------------------------------- MANEJO DE ERRORES ---------------------------------------------------
 @app.errorhandler(404)
@@ -191,11 +192,13 @@ def page_not_found(e):
 #--------------------------------------- MODO OSCURO ---------------------------------------------------
 @app.route('/mode-change')
 def mode_switch():
+    last_route = request.referrer
+    print(last_route)
     if app.config["APP_COLOR_MODE"] == "dark":
         app.config["APP_COLOR_MODE"] = "light"
     else:
         app.config["APP_COLOR_MODE"] = "dark"
-    return render_template('general/index.html')
+    return redirect(last_route)
 
 
 

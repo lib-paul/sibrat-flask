@@ -59,11 +59,25 @@
             {% block main_menu %}
                 <ul class="navbar-nav mr-auto ">
                     {{ layout.menu() }}
+                    
                 </ul>
             {% endblock %}
 
                 {% block menu_links %}
                 <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.has_role('Tecnico1') %}
+                    <li class="nav-item item-navsito">
+                    <a class="nav-link"> Permiso otorgado: Tecnico Nivel 1 </a>
+                    </li>
+                    {% elif current_user.has_role('Tecnico2')%}
+                    <li class="nav-item item-navsito">
+                    <a class="nav-link"> Permiso otorgado: Tecnico Nivel 2</a>
+                    </li>
+                    {% elif current_user.has_role('Administrador')%}
+                    <li class="nav-item item-navsito">
+                    <a class="nav-link"> Permiso otorgado: Administrador </a>
+                    </li>
+                    {% endif %}                    
                     {{ layout.menu_links() }}
                 </ul>
                 {% endblock %}

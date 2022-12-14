@@ -3,7 +3,7 @@
 <table class="table table-{{config['APP_COLOR_MODE']}} table-striped table-hover mt-4 table-responsive">
   {% include 'base/mensajes.html' %} 
   {% if session['armador_id']  %}
-  <h2 class="tracking-out-expand pt-2">Editando...</h2>
+  <h2 class="tracking-out-expand pt-2 text-{{config['APP_TEXT_COLOR_MODE']}}">Editando...</h2>
   {% endif %}
   <thead>
     <tr>
@@ -85,16 +85,16 @@
   <div class="col-sm-6">
     <div class="card bg-{{config['APP_COLOR_MODE']}}">
      
-      <div class="card-header">A tener en cuenta...</div>
+      <div class="card-header ">A tener en cuenta...</div>
       <ul class="list-group list-group-flush">
         
-        <li class="list-group-item">Socket requerido en motherboard: {{ session['armador_manual']['Motherboard']['socket']}}</li>
+        <li class="list-group-item bg-{{config['APP_COLOR_MODE']}}">Socket requerido en motherboard: {{ session['armador_manual']['Motherboard']['socket']}}</li>
         {% if session['armador_manual']['GPU'] %}
-        <li class="list-group-item">PSU Minima requerida: {{ session['armador_manual']['GPU']['recomendacion_psu'] }}</li>
+        <li class="list-group-item bg-{{config['APP_COLOR_MODE']}}">PSU Minima requerida: {{ session['armador_manual']['GPU']['recomendacion_psu'] }}</li>
         {% endif %} 
-        <li class="list-group-item">Factor forma de gabinete requerido: {{ session['armador_manual']['Motherboard']['factor_forma']}}</li>
+        <li class="list-group-item bg-{{config['APP_COLOR_MODE']}}">Factor forma de gabinete requerido: {{ session['armador_manual']['Motherboard']['factor_forma']}}</li>
         {% if precio_total %}
-        <li class="list-group-item">Precio aproximado total: $ {{ precio_total }}</li>
+        <li class="list-group-item bg-{{config['APP_COLOR_MODE']}}">Precio aproximado total: $ {{ precio_total }}</li>
         {% endif %}
       </ul>
     </div>

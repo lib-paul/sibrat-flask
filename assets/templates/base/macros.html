@@ -1,14 +1,14 @@
 {% macro mensaje() -%}
 <div
-  class="alert alert-info alert-dismissible fade show mt-3 text-center fades"
+  class="alert alert-dismissible fade show mt-3 text-center fades bg-{{config['APP_COLOR_MODE']}} text-{{config['APP_TEXT_COLOR_MODE']}}"
   role="alert"
   id="alert"
 >
 {{ caller() }}
   <button
     type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
+    class="btn-close bg-{{config['APP_COLOR_MODE']}}"
+    data-bs-dismiss="alert" 
     aria-label="Close"
   ></button>
 </div>
